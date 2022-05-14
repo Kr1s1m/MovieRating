@@ -5,7 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MovieRatingApplication {
-
 	public static void main(String[] args) {SpringApplication.run(MovieRatingApplication.class, args);
+
+		//hello this is a test
+
+
 	}
 }
