@@ -1,6 +1,6 @@
 # MovieRating (IMDb+Reddit)
 
-The idea of the project is to develop a web-based movie rating system. The system will contain information about movies and real life individuals who participated in their creation. The system will allow users to review and rate movies.
+The idea of the project is to develop a web-based movie rating system similar to IMDb combined with Reddit. The system will contain information about movies and real life individuals who participated in their creation. The system will allow users to review and rate movies. The users will also be able to upvote and downvote user reviews which will generate user karma.
 
 
 ## ***Basic Business Requirements***
