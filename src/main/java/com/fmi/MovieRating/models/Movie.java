@@ -1,6 +1,9 @@
 package com.fmi.MovieRating.models;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +28,8 @@ public class Movie {
     private Short year;
 
     @Lob //large object, CLOB (character large object) <-> TEXT in Postgres
-    @Column(name = "movie_desc")
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "movie_desc", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "movie")
@@ -34,4 +38,65 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private Set<StarsIn> starredIn;
 
+    public Movie(String title, Short year, String description)
+    {
+        this.rating = 0.0;
+        this.reviewCount = 0;
+        this.title = title;
+        this.year = year;
+        this.description = description;
+        this.reviews = new HashSet<>();
+        this.starredIn = new HashSet<>();
+    }
+
+    public Movie()
+    {
+        rating = 0.0;
+        reviewCount = 0;
+        title = "";
+        year = 0;
+        description = "";
+        reviews = new HashSet<>();
+        starredIn = new HashSet<>();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(Integer reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Short getYear() {
+        return year;
+    }
+
+    public void setYear(Short year) {
+        this.year = year;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
 }
