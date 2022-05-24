@@ -1,11 +1,15 @@
 package com.fmi.MovieRating.models;
 
 import com.fmi.MovieRating.models.enums.StarType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 
 @Entity
+@Getter
+@Setter
 @Table(indexes = { @Index(columnList = "star_id") })
 public class StarsIn {
 
@@ -30,21 +34,9 @@ public class StarsIn {
         type = StarType.ACTOR;
     }
 
-    public StarsIn(StarType type) {
-        this.type = type;
-    }
-
     public StarsIn(Movie movie, Individual individual, StarType type) {
         this.movie = movie;
         this.individual = individual;
-        this.type = type;
-    }
-
-    public StarType getType() {
-        return type;
-    }
-
-    public void setType(StarType type) {
         this.type = type;
     }
 }

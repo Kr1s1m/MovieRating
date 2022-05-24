@@ -6,7 +6,6 @@ public enum StarType {
     WRITER,
     DIRECTOR;
 
-    private StarType(){
-
+    StarType(){
     }
 }

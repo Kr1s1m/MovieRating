@@ -1,0 +1,49 @@
+--database name: movieDB
+--POSTGRES_USER=postgres;POSTGRES_PWD=pwd
+
+drop table if exists Movie, Review, Individual, Stars_in cascade;
+
+create table Movie
+(
+	movie_id int primary key,
+	
+	movie_stars int,
+	movie_rating numeric(3,1),
+	movie_rev_cnt int,
+	
+	movie_name varchar(70),
+	movie_year int,
+	movie_desc text
+);
+
+create table Review
+(
+	review_id int primary key,
+	
+	movie_id int,
+	
+	review_stars int,
+	review_body varchar(100),
+	reviewer_name varchar(20),
+	
+	foreign key (movie_id) references Movie(movie_id)
+);
+
+create table Individual
+(
+	individual_id int primary key
+	
+);
+
+create table Stars_in
+(
+	star_id int primary key,
+	
+	movie_id int,
+	individual_id int,
+	
+	type varchar(20),
+	
+	foreign key (movie_id) references Movie(movie_id),
+	foreign key (individual_id) references Individual(individual_id)
+);

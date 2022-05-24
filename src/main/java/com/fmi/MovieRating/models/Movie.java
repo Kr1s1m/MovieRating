@@ -1,12 +1,17 @@
 package com.fmi.MovieRating.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(indexes = { @Index(columnList = "movie_id")  })
 public class Movie {
 
@@ -32,7 +37,7 @@ public class Movie {
     @Column(name = "movie_desc", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "movie")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "movie")
     private Set<Review> reviews;
 
     @OneToMany(mappedBy = "movie")
@@ -58,45 +63,5 @@ public class Movie {
         description = "";
         reviews = new HashSet<>();
         starredIn = new HashSet<>();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getReviewCount() {
-        return reviewCount;
-    }
-
-    public void setReviewCount(Integer reviewCount) {
-        this.reviewCount = reviewCount;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Short getYear() {
-        return year;
-    }
-
-    public void setYear(Short year) {
-        this.year = year;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
     }
 }
