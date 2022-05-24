@@ -1,6 +1,5 @@
 package com.fmi.MovieRating;
 
-/*
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.models.Review;
 import com.fmi.MovieRating.models.StarsIn;
@@ -25,7 +24,10 @@ public class RunnerJPA implements CommandLineRunner {
 
         repo.deleteAll();
 
-        Movie movie = new Movie( "Bad movie", (short) 3401, "This is a very bad movie.");
+        Movie movie = new Movie();
+        movie.setTitle("Bad movie");
+        movie.setYear((short) 3401);
+        movie.setDescription("This is a very bad movie.");
 
         Movie savedMovie = repo.save(movie);
 
@@ -35,4 +37,3 @@ public class RunnerJPA implements CommandLineRunner {
 
     }
 }
-*/

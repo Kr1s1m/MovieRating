@@ -1,10 +1,14 @@
 package com.fmi.MovieRating.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(indexes = { @Index(columnList = "review_id") })
 public class Review {
 
@@ -38,30 +42,6 @@ public class Review {
     public Review(String reviewerName, Short score, String body) {
         this.reviewerName = reviewerName;
         this.score = score;
-        this.body = body;
-    }
-
-    public String getReviewerName() {
-        return reviewerName;
-    }
-
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
-    }
-
-    public Short getScore() {
-        return score;
-    }
-
-    public void setScore(Short score) {
-        this.score = score;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
         this.body = body;
     }
 }
