@@ -1,5 +1,6 @@
 package com.fmi.MovieRating;
 
+/*
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.models.Review;
 import com.fmi.MovieRating.models.StarsIn;
@@ -34,3 +35,4 @@ public class RunnerJPA implements CommandLineRunner {
 
     }
 }
+*/
