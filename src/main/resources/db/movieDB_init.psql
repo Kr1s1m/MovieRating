@@ -7,12 +7,12 @@ create table Movie
 (
 	movie_id int primary key,
 	
-	movie_stars int,
-	movie_rating numeric(3,1),
+	movie_rating numeric(3, 1),
 	movie_rev_cnt int,
 	
-	movie_name varchar(70),
-	movie_year int,
+
+	movie_title varchar(70),
+	movie_year smallint,
 	movie_desc text
 );
 
@@ -22,16 +22,23 @@ create table Review
 	
 	movie_id int,
 	
-	review_stars int,
-	review_body varchar(100),
-	reviewer_name varchar(20),
+	reviewer_name varchar(25),
+	review_score smallint,
+	review_body text,
 	
 	foreign key (movie_id) references Movie(movie_id)
 );
 
 create table Individual
 (
-	individual_id int primary key
+	individual_id int primary key,
+	
+	individual_firstname varchar(20),
+	individual_lastname varchar(20),
+	individual_birthdate date,
+	individual_birth_country varchar(20),
+	individual_birth_city varchar(20),
+	individual_bio text
 	
 );
 
@@ -42,7 +49,7 @@ create table Stars_in
 	movie_id int,
 	individual_id int,
 	
-	type varchar(20),
+	star_type varchar(20),
 	
 	foreign key (movie_id) references Movie(movie_id),
 	foreign key (individual_id) references Individual(individual_id)

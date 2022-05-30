@@ -4,10 +4,10 @@ import com.fmi.MovieRating.dtos.MovieDto;
 import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.MovieRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +25,14 @@ public class MovieController {
 
     @GetMapping("/movies/{id}")
     public Optional<Movie> getMovieById(@PathVariable Integer id) {
-        if(movieRepository.findById(id).isPresent()) {
-            return movieRepository.findById(id);
+
+        Optional<Movie> maybeMovie = movieRepository.findById(id);
+
+        if(maybeMovie.isPresent()) {
+            return maybeMovie;
         }else {
             throw new ResourceNotFoundException(String.format("Movie with id %d does not exist", id));
         }
-       // return movieRepository.findById(id);
     }
 
     @PostMapping("/movies")
