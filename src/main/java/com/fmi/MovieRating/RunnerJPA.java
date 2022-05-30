@@ -1,4 +1,4 @@
-package com.fmi.MovieRating;
+/*package com.fmi.MovieRating;
 
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.models.Review;
@@ -37,3 +37,4 @@ public class RunnerJPA implements CommandLineRunner {
 
     }
 }
+ */
