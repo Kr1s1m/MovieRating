@@ -1,5 +1,6 @@
 package com.fmi.MovieRating.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -18,7 +19,7 @@ public class Review {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id", nullable = false)
+    //@JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @Column(name = "reviewer_name", length = 25)
