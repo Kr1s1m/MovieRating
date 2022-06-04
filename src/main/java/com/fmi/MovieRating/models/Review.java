@@ -22,6 +22,9 @@ public class Review {
     //@JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
+    @Column(name = "review_title", length = 100)
+    private String reviewTitle;
+
     @Column(name = "reviewer_name", length = 25)
     private String reviewerName;
 
@@ -40,7 +43,9 @@ public class Review {
         this.body = "";
     }
 
-    public Review(String reviewerName, Short score, String body) {
+    public Review(String reviewTitle, Movie movie, String reviewerName, Short score, String body) { //TODO: Ask for movie
+        this.reviewTitle = reviewTitle;
+        this.movie = movie;
         this.reviewerName = reviewerName;
         this.score = score;
         this.body = body;
