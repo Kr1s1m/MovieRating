@@ -5,6 +5,7 @@ import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.MovieRepository;
 
+import com.fmi.MovieRating.services.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,38 +18,25 @@ import java.util.Optional;
 public class MovieController {
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieServiceImpl movieService;
 
     @GetMapping("/movies")
     public List<Movie> getAllMovies(){
-        return movieRepository.findAll();
+        return movieService.list();
     }
 
     @GetMapping("/movies/{id}")
     public Optional<Movie> getMovieById(@PathVariable Integer id) {
-
-        Optional<Movie> maybeMovie = movieRepository.findById(id);
-
-        if(maybeMovie.isPresent()) {
-            return maybeMovie;
-        }else {
-            throw new ResourceNotFoundException(String.format("Movie with id %d does not exist", id));
-        }
+        return movieService.getMovieById(id);
     }
 
     @PostMapping("/movies")
     public Movie createMovie(@RequestBody MovieDto movieDto){
-        Movie movie = new Movie(
-                movieDto.getTitle(),
-                movieDto.getYear(),
-                movieDto.getDescription()
-        );
-
-        return movieRepository.saveAndFlush(movie);
+      return movieService.createMovie(movieDto);
     }
 
     @DeleteMapping("/movies/{id}")
     public void deleteMovie(@PathVariable Integer id){
-        movieRepository.deleteById(id);
+        movieService.deleteMovie(id);
     }
 }

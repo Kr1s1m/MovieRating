@@ -20,7 +20,7 @@ public class Movie {
     @Column(name = "movie_id")
     private Integer id;
 
-    @Column(name = "movie_rating", precision = 3, scale = 1)
+    @Column(name = "movie_rating", precision = 2, scale = 1)
     private Double rating;
 
     @Column(name = "movie_rev_cnt")
