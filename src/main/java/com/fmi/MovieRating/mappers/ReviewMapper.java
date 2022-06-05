@@ -7,11 +7,23 @@ public class ReviewMapper {
 
     public static Review fromDtoToReview(ReviewDto reviewDto){
         return new Review(
-                reviewDto.getReviewTitle(),
-                reviewDto.getMovie(),
+                reviewDto.getTitle(),
                 reviewDto.getReviewerName(),
                 reviewDto.getScore(),
-                reviewDto.getBody()
+                reviewDto.getBody(),
+                reviewDto.getDate()
+        );
+    }
+
+    public static ReviewDto fromReviewToDto(Review review){
+        return new ReviewDto(
+                review.getId(),
+                review.getMovie().getId(),
+                review.getTitle(),
+                review.getReviewerName(),
+                review.getScore(),
+                review.getBody(),
+                review.getDate()
         );
     }
 }

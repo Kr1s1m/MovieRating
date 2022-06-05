@@ -21,17 +21,17 @@ public class MovieController {
     private MovieServiceImpl movieService;
 
     @GetMapping("/movies")
-    public List<Movie> getAllMovies(){
+    public List<MovieDto> getAllMovies(){
         return movieService.list();
     }
 
     @GetMapping("/movies/{id}")
-    public Optional<Movie> getMovieById(@PathVariable Integer id) {
+    public Optional<MovieDto> getMovieById(@PathVariable Integer id) {
         return movieService.getMovieById(id);
     }
 
     @PostMapping("/movies")
-    public Movie createMovie(@RequestBody MovieDto movieDto){
+    public MovieDto createMovie(@RequestBody MovieDto movieDto){
       return movieService.createMovie(movieDto);
     }
 

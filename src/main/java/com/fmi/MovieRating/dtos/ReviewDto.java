@@ -3,11 +3,43 @@ package com.fmi.MovieRating.dtos;
 import com.fmi.MovieRating.models.Movie;
 import lombok.Getter;
 
+import javax.management.ConstructorParameters;
+import java.time.LocalDateTime;
+
 @Getter
 public class ReviewDto {
-    private String reviewTitle;
-    private Movie movie;
+    private Integer id;
+    private Integer movieId;
+
+    private String title;
     private String reviewerName;
     private Short score;
     private String body;
+    private LocalDateTime date;
+
+    public ReviewDto(Integer movieId, String title,
+                     String reviewerName, Short score, String body, LocalDateTime date) {
+
+        this.movieId = movieId;
+
+        this.title = title;
+        this.reviewerName = reviewerName;
+        this.score = score;
+        this.body = body;
+        this.date = date;
+    }
+
+    //mapper constructor
+    public ReviewDto(Integer id, Integer movieId, String title,
+                     String reviewerName, Short score, String body, LocalDateTime date) {
+
+        this.id = id;
+        this.movieId = movieId;
+
+        this.title = title;
+        this.reviewerName = reviewerName;
+        this.score = score;
+        this.body = body;
+        this.date = date;
+    }
 }

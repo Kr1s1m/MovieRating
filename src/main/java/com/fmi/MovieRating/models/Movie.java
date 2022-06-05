@@ -20,12 +20,6 @@ public class Movie {
     @Column(name = "movie_id")
     private Integer id;
 
-    @Column(name = "movie_rating", precision = 2, scale = 1)
-    private Double rating;
-
-    @Column(name = "movie_rev_cnt")
-    private Integer reviewCount;
-
     @Column(name = "movie_title", nullable = false, length = 70)
     private String title;
 
@@ -37,7 +31,7 @@ public class Movie {
     @Column(name = "movie_desc", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Review> reviews;
 
     @OneToMany(mappedBy = "movie")
@@ -45,8 +39,6 @@ public class Movie {
 
     public Movie(String title, Short year, String description)
     {
-        this.rating = 0.0;
-        this.reviewCount = 0;
         this.title = title;
         this.year = year;
         this.description = description;
@@ -56,8 +48,6 @@ public class Movie {
 
     public Movie()
     {
-        rating = 0.0;
-        reviewCount = 0;
         title = "";
         year = 0;
         description = "";
