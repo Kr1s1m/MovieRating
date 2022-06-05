@@ -19,19 +19,19 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping("/reviews")
-    public List<Review> getAllReviews(){
+    public List<ReviewDto> getAllReviews(){
         return reviewService.list();
     }
 
     @GetMapping("/reviews/{movie_id}")
-    public List<Review> getAllByMovieID(@PathVariable Integer movie_id)
+    public List<ReviewDto> getAllByMovieID(@PathVariable Integer movie_id)
     {
         return reviewService.getReviewsByMovieId(movie_id);
     }
     //@GetMapping("/{movie_id}/reviews")
 
     @PostMapping("/reviews")
-    public Review createReview(@RequestBody ReviewDto reviewDto){
+    public ReviewDto createReview(@RequestBody ReviewDto reviewDto){
         return reviewService.createReview(reviewDto);
     }
 }

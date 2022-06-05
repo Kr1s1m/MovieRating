@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,17 +21,20 @@ public class Review {
     private Integer id;
 
     @ManyToOne
-    //@JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @Column(name = "review_title", length = 100)
-    private String reviewTitle;
+    private String title;
 
     @Column(name = "reviewer_name", length = 25)
     private String reviewerName;
 
     @Column(name = "review_score")
     private Short score;
+
+    @Column(name = "review_date")
+    private LocalDateTime date;
 
     @Lob //large object, CLOB (character large object) <-> TEXT in Postgres
     @Type(type = "org.hibernate.type.TextType")
@@ -43,11 +48,11 @@ public class Review {
         this.body = "";
     }
 
-    public Review(String reviewTitle, Movie movie, String reviewerName, Short score, String body) { //TODO: Ask for movie
-        this.reviewTitle = reviewTitle;
-        this.movie = movie;
+    public Review(String title, String reviewerName, Short score, String body, LocalDateTime date) {
+        this.title = title;
         this.reviewerName = reviewerName;
         this.score = score;
         this.body = body;
+        this.date = date;
     }
 }

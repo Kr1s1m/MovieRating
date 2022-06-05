@@ -12,4 +12,13 @@ public class MovieMapper {
                 movieDto.getDescription()
         );
     }
+
+    public static MovieDto fromMovieToDto(Movie movie) {
+        return new MovieDto(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getDescription()
+        );
+    }
 }

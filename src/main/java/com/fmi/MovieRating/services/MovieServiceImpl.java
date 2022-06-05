@@ -2,6 +2,7 @@ package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.MovieDto;
 import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
+import com.fmi.MovieRating.mappers.MovieMapper;
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.fmi.MovieRating.mappers.MovieMapper.fromDtoToMovie;
+import static com.fmi.MovieRating.mappers.MovieMapper.fromMovieToDto;
 
 @Service
 @RequiredArgsConstructor
@@ -20,40 +23,31 @@ public class MovieServiceImpl implements MovieService{
 
     private final MovieRepository movieRepository;
 
-    public List<Movie> list(){
-        return movieRepository.findAll();
+    public List<MovieDto> list()
+    {
+        return movieRepository.findAll().stream()
+                .map(MovieMapper::fromMovieToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Movie> getMovieById(Integer id) {
+    public Optional<MovieDto> getMovieById(Integer id) {
 
-        Optional<Movie> maybeMovie = movieRepository.findById(id);
+        Optional<MovieDto> maybeMovieDto = movieRepository.findById(id).map(MovieMapper::fromMovieToDto);
 
-        if(maybeMovie.isPresent()) {
-            return maybeMovie;
+        if(maybeMovieDto.isPresent()) {
+            return maybeMovieDto;
         }else {
             throw new ResourceNotFoundException(String.format("Movie with id %d does not exist", id));
         }
     }
 
-    public Movie createMovie(MovieDto movieDto){
+    public MovieDto createMovie(MovieDto movieDto){
         Movie movie = fromDtoToMovie(movieDto);
-        return movieRepository.saveAndFlush(movie);
+        return fromMovieToDto(movieRepository.saveAndFlush(movie));
     }
 
     public void deleteMovie(Integer id){
         movieRepository.deleteById(id);
     }
 
-    @Override
-    public Movie updateScoreById(Integer id, Short score) {
-        Optional<Movie> movie = getMovieById(id);
-        Double initialRating= movie.get().getRating();
-        Double newRating = (initialRating + score)/2;
-        movie.get().setRating(newRating);
-
-        //TODO:Check for double;
-
-        return movieRepository.saveAndFlush(movie.get());
-
-    }
 }

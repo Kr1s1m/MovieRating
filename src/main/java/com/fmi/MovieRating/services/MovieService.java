@@ -8,14 +8,12 @@ import java.util.Optional;
 
 public interface MovieService {
 
-    List<Movie> list();
+    List<MovieDto> list();
 
-    Optional<Movie> getMovieById(Integer id);
+    Optional<MovieDto> getMovieById(Integer id);
 
-    Movie createMovie(MovieDto movieDto);
+    MovieDto createMovie(MovieDto movieDto);
 
     void deleteMovie(Integer id);
-
-    Movie updateScoreById(Integer id, Short score);
 
 }
