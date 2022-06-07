@@ -17,6 +17,16 @@ public class ReviewDto {
     private String body;
     private LocalDateTime date;
 
+    public ReviewDto() {
+        id = 0;
+        movieId = 0;
+        title = "";
+        reviewerName = "";
+        score = 0;
+        body = "";
+        date = LocalDateTime.now();
+    }
+
     public ReviewDto(Integer movieId, String title,
                      String reviewerName, Short score, String body, LocalDateTime date) {
 

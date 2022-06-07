@@ -1,4 +1,4 @@
-
+/*
 package com.fmi.MovieRating;
 
 import com.fmi.MovieRating.dtos.MovieDto;
@@ -55,4 +55,4 @@ public class RunnerJPA implements CommandLineRunner {
 
     }
 }
-
+*/
