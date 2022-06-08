@@ -4,9 +4,12 @@ import com.fmi.MovieRating.dtos.MovieDto;
 import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.mappers.MovieMapper;
 import com.fmi.MovieRating.models.Movie;
+import com.fmi.MovieRating.repositories.IVoteInfo;
 import com.fmi.MovieRating.repositories.MovieRepository;
+import com.fmi.MovieRating.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,28 +25,31 @@ import static com.fmi.MovieRating.mappers.MovieMapper.fromMovieToDto;
 public class MovieServiceImpl implements MovieService{
 
     private final MovieRepository movieRepository;
+    private final ReviewRepository reviewRepository;
 
-    public List<MovieDto> list()
+    public List<Movie> list()
     {
-        return movieRepository.findAll().stream()
-                .map(MovieMapper::fromMovieToDto)
-                .collect(Collectors.toList());
+        return movieRepository.findAll();
     }
 
-    public Optional<MovieDto> getMovieById(Integer id) {
+    public Optional<Movie> getMovieById(Integer id) {
 
-        Optional<MovieDto> maybeMovieDto = movieRepository.findById(id).map(MovieMapper::fromMovieToDto);
+        Optional<Movie> maybeMovie = movieRepository.findById(id);
 
-        if(maybeMovieDto.isPresent()) {
-            return maybeMovieDto;
+        if(maybeMovie.isPresent()) {
+            return maybeMovie;
         }else {
             throw new ResourceNotFoundException(String.format("Movie with id %d does not exist", id));
         }
     }
 
-    public MovieDto createMovie(MovieDto movieDto){
+    public Movie createMovie(MovieDto movieDto){
         Movie movie = fromDtoToMovie(movieDto);
-        return fromMovieToDto(movieRepository.saveAndFlush(movie));
+        return movieRepository.saveAndFlush(movie);
+    }
+
+    public IVoteInfo getVoteInfoById(Integer id) {
+        return reviewRepository.getVoteInfoByMovieId(id);
     }
 
     public void deleteMovie(Integer id){
