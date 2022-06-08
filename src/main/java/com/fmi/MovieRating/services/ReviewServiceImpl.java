@@ -25,29 +25,25 @@ public class ReviewServiceImpl implements ReviewService{
     private final MovieRepository movieRepository;
 
     @Override
-    public List<ReviewDto> list() {
+    public List<Review> list() {
 
-        return reviewRepository.findAll().stream()
-                .map(ReviewMapper::fromReviewToDto)
-                .collect(Collectors.toList());
+        return reviewRepository.findAll();
     }
 
     @Override
-    public List<ReviewDto> getReviewsByMovieId(Integer id) {
+    public List<Review> getReviewsByMovieId(Integer id) {
 
-        return reviewRepository.findAllByMovieId(id).stream()
-                .map(ReviewMapper::fromReviewToDto)
-                .collect(Collectors.toList());
+        return reviewRepository.findAllByMovieId(id);
     }
 
     @Override
-    public ReviewDto createReview(ReviewDto reviewDto) {
+    public Review createReview(ReviewDto reviewDto) {
         Review review = fromDtoToReview(reviewDto);
         Integer movieId = reviewDto.getMovieId();
 
         review.setMovie(movieRepository.getById(movieId));
 
-        return fromReviewToDto(reviewRepository.saveAndFlush(review));
+        return reviewRepository.saveAndFlush(review);
     }
 
     @Override

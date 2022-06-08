@@ -3,6 +3,7 @@
 
 drop table if exists Movie, Review, Individual, Stars_in cascade;
 
+/*
 create table Movie
 (
 	movie_id int primary key,
@@ -55,3 +56,4 @@ create table Stars_in
 	foreign key (movie_id) references Movie(movie_id),
 	foreign key (individual_id) references Individual(individual_id)
 );
+*/

@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ReviewService {
 
-    List<ReviewDto> list();
+    List<Review> list();
 
-    List<ReviewDto> getReviewsByMovieId(Integer id);
+    List<Review> getReviewsByMovieId(Integer id);
 
-    ReviewDto createReview(ReviewDto reviewDto);
+    Review createReview(ReviewDto reviewDto);
 
     void deleteReview(Integer id);
 }
