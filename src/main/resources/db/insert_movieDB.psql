@@ -1,16 +1,23 @@
 
-insert into movie (movie_id, movie_rating, movie_rev_cnt, movie_title, movie_year, movie_desc)
+/*
+insert into individual (individual_id, individual_firstname, individual_lastname, individual_birthdate, individual_birth_country, individual_birth_city, individual_bio)
 values
-(1, 3.8, 100, 'drisnq 1', 2004, 'asdf'),
-(2, 3.8, 10, 'drisnq 2', 2005, 'asdf'),
-(3, 3.8, 1, 'drisnq 3', 2006, 'asdf'),
-(4, 3.8, 1, 'umushtenieto na drisnq', 2007, 'asdf'),
-(5, 1.8, 2, 'sinut na drisnqta', 2008, 'asdf'),
-(6, 5.8, 3, 'sapidarman', 2100, 'asdf'),
-(7, 9.8, 10, 'oblakut atlas', 2011, 'asdf'),
-(8, 8.8, 7, 'batman', 2009, 'asdf'),
-(9, 6.8, 6, 'jenata kotka', 6969, 'asdf');
+(1, 'Firstname1', 'Lastname1', '2005-08-24', 'Country1', 'City1', 'Bio1'),
+(2, 'Firstname2', 'Lastname2', '2006-07-23', 'Country2', 'City2', 'Bio2'),
+(3, 'Firstname3', 'Lastname3', '2007-02-14', 'Country3', 'City3', 'Bio3'),
+(4, 'Firstname4', 'Lastname4', '1996-11-10', 'Country4', 'City4', 'Bio4'),
+(5, 'Firstname5', 'Lastname5', '1999-01-11', 'Country5', 'City5', 'Bio5'),
+(6, 'Firstname6', 'Lastname6', '1986-06-27', 'Country6', 'City6', 'Bio6')
 
-insert into review (review_id, movie_id, review_stars,)
+*/
 
-select * from movie;
+/*
+insert into srars_in (star_id, individual_id, movie_id, star_type)
+values
+(1, 1, 11, Actor),
+(2, 6, 11, )
+*/
+
+
+/*select * from movie;*/
+/*select * from individual;*/

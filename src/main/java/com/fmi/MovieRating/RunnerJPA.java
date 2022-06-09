@@ -34,12 +34,12 @@ public class RunnerJPA implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        MovieDto movie1 = movieService.createMovie(new MovieDto("TestMovie1", (short)2022, "This is a test movie"));
-        MovieDto movie2 = movieService.createMovie(new MovieDto("TestMovie2", (short)2022, "This is a test movie"));
-        MovieDto movie3 = movieService.createMovie(new MovieDto("TestMovie3", (short)2022, "This is a test movie"));
-        MovieDto movie4 = movieService.createMovie(new MovieDto("TestMovie4", (short)2022, "This is a test movie"));
-        MovieDto movie5 = movieService.createMovie(new MovieDto("TestMovie5", (short)2022, "This is a test movie"));
-        MovieDto movie6 = movieService.createMovie(new MovieDto("TestMovie6", (short)2022, "This is a test movie"));
+        Movie movie1 = movieService.createMovie(new MovieDto("TestMovie1", (short)2022, "This is a test movie"));
+        Movie movie2 = movieService.createMovie(new MovieDto("TestMovie2", (short)2022, "This is a test movie"));
+        Movie movie3 = movieService.createMovie(new MovieDto("TestMovie3", (short)2022, "This is a test movie"));
+        Movie movie4 = movieService.createMovie(new MovieDto("TestMovie4", (short)2022, "This is a test movie"));
+        Movie movie5 = movieService.createMovie(new MovieDto("TestMovie5", (short)2022, "This is a test movie"));
+        Movie movie6 = movieService.createMovie(new MovieDto("TestMovie6", (short)2022, "This is a test movie"));
 
         ReviewDto review1 = new ReviewDto(movie1.getId(), "Title1", "TestReviewer1", (short)5, "This is a test review", LocalDateTime.now());
         ReviewDto review2 = new ReviewDto(movie1.getId(),"Title2", "TestReviewer2", (short)5, "This is a test review", LocalDateTime.now());
