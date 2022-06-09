@@ -26,12 +26,12 @@ public class StarsIn {
     @JoinColumn(name = "individual_id", nullable = false)
     private Individual individual;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "star_type")
     private StarType type;
 
     public StarsIn() {
-        type = StarType.ACTOR;
+        type = StarType.Actor;
     }
 
     public StarsIn(Movie movie, Individual individual, StarType type) {

@@ -1,10 +1,10 @@
 package com.fmi.MovieRating.models.enums;
 
 public enum StarType {
-    ACTOR,
-    PRODUCER,
-    WRITER,
-    DIRECTOR;
+    Actor,
+    Producer,
+    Writer,
+    Director;
 
     StarType(){
     }
