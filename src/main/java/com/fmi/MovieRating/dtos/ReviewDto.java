@@ -1,9 +1,7 @@
 package com.fmi.MovieRating.dtos;
 
-import com.fmi.MovieRating.models.Movie;
 import lombok.Getter;
 
-import javax.management.ConstructorParameters;
 import java.time.LocalDateTime;
 
 @Getter

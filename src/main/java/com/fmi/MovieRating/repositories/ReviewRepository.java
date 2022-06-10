@@ -3,7 +3,6 @@ package com.fmi.MovieRating.repositories;
 import com.fmi.MovieRating.models.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

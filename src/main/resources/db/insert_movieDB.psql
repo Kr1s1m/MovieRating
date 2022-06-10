@@ -1,4 +1,3 @@
-
 /*
 insert into individual (individual_id, individual_firstname, individual_lastname, individual_birthdate, individual_birth_country, individual_birth_city, individual_bio)
 values
@@ -8,16 +7,28 @@ values
 (4, 'Firstname4', 'Lastname4', '1996-11-10', 'Country4', 'City4', 'Bio4'),
 (5, 'Firstname5', 'Lastname5', '1999-01-11', 'Country5', 'City5', 'Bio5'),
 (6, 'Firstname6', 'Lastname6', '1986-06-27', 'Country6', 'City6', 'Bio6')
-
 */
 
+
 /*
-insert into srars_in (star_id, individual_id, movie_id, star_type)
+insert into stars_in (star_id, individual_id, movie_id, star_type)
 values
-(1, 1, 11, Actor),
-(2, 6, 11, )
+(1, 1, 99, 1),
+(2, 6, 99, 4),
+(3, 2, 99, 1),
+(4, 5, 101, 1),
+(5, 3, 101, 1),
+(6, 4, 101, 4),
+(7, 5, 102, 1),
+(8, 3, 102, 1),
+(9, 2, 102, 1),
+(10, 1, 102, 1),
+(11, 6, 102, 1),
+(12, 6, 102, 4)
 */
 
 
 /*select * from movie;*/
+/*select * from stars_in;*/
 /*select * from individual;*/
+/*select individual.*, star_type from stars_in inner join individual on individual.individual_id = stars_in.individual_id where movie_id = 99;*/

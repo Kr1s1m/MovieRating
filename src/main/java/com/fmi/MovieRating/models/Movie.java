@@ -3,7 +3,6 @@ package com.fmi.MovieRating.models;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.HashSet;

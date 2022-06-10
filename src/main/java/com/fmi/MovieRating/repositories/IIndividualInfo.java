@@ -1,6 +1,5 @@
 package com.fmi.MovieRating.repositories;
 
-import com.fmi.MovieRating.models.Individual;
 import com.fmi.MovieRating.models.enums.StarType;
 
 import java.time.LocalDate;

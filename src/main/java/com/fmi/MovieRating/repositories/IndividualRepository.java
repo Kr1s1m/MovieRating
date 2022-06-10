@@ -16,5 +16,5 @@ public interface IndividualRepository extends JpaRepository<Individual, Integer>
                    "from stars_in inner join individual on individual.individual_id = stars_in.individual_id " +
                    "where movie_id = ?1"
             , nativeQuery = true)
-    List<IIndividualInfo> getAllInfoByMovieId(Integer movie_id);
+    List<IIndividualInfo> getAllIndividualInfoByMovieId(Integer movie_id);
 }

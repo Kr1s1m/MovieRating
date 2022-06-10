@@ -1,12 +1,9 @@
 package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.IndividualDto;
-import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.models.Individual;
-import com.fmi.MovieRating.models.Review;
 import com.fmi.MovieRating.repositories.IIndividualInfo;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 

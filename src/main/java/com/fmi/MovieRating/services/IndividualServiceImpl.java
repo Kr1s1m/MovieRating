@@ -3,7 +3,6 @@ package com.fmi.MovieRating.services;
 import com.fmi.MovieRating.dtos.IndividualDto;
 import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Individual;
-import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.IIndividualInfo;
 import com.fmi.MovieRating.repositories.IndividualRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +39,7 @@ public class IndividualServiceImpl implements IndividualService{
 
     @Override
     public List<IIndividualInfo> getIndividualsByMovieId(Integer id){
-        return individualRepository.getAllInfoByMovieId(id); //TODO getIndividualsByMovieId
+        return individualRepository.getAllIndividualInfoByMovieId(id);
     }
 
     @Override
