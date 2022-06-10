@@ -23,7 +23,7 @@ public class IndividualDto {
         id = 0;
         firstname = "";
         lastname = "";
-        starType = StarType.Actor;
+        starType = StarType.Default;
         birthdate = LocalDate.now();
         birthCountry = "";
         birthCity = "";

@@ -31,7 +31,7 @@ public class StarsIn {
     private StarType type;
 
     public StarsIn() {
-        type = StarType.Actor;
+        type = StarType.Default;
     }
 
     public StarsIn(Movie movie, Individual individual, StarType type) {

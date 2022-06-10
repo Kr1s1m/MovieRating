@@ -1,22 +1,16 @@
 package com.fmi.MovieRating.controllers;
 
 import com.fmi.MovieRating.dtos.MovieDto;
-import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
-import com.fmi.MovieRating.mappers.MovieMapper;
-import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.IVoteInfo;
-import com.fmi.MovieRating.repositories.MovieRepository;
-
 import com.fmi.MovieRating.services.MovieServiceImpl;
-import com.fmi.MovieRating.services.ReviewServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.fmi.MovieRating.mappers.MovieMapper.fromMovieInfoToDto;
 import static com.fmi.MovieRating.mappers.MovieMapper.fromMovieToDto;
 
 @RestController
@@ -53,6 +47,23 @@ public class MovieController {
 
             return movieDto;
         });
+    }
+
+    @GetMapping("/movies/individual-page/{individual_id}")
+    public List<MovieDto> getAllByIndividualId(@PathVariable Integer individual_id){
+        return movieService.getAllMovieInfoByIndividualId(individual_id).stream()
+                .map(iMovieInfo -> {
+                    MovieDto movieDto = fromMovieInfoToDto(iMovieInfo);
+
+                    IVoteInfo iVoteInfo = movieService.getVoteInfoById(iMovieInfo.getId());
+
+                    movieDto.setVotes(iVoteInfo.getVoteCount());
+                    movieDto.setRating(iVoteInfo.getScoreAverage());
+                    movieDto.setDescription("");
+
+                    return movieDto;
+                })
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/movies")

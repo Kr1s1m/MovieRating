@@ -4,8 +4,6 @@ import com.fmi.MovieRating.dtos.IndividualDto;
 import com.fmi.MovieRating.models.Individual;
 import com.fmi.MovieRating.repositories.IIndividualInfo;
 
-import java.time.LocalDate;
-
 public class IndividualMapper {
 
     public static Individual fromDtoToIndividual(IndividualDto individualDto){

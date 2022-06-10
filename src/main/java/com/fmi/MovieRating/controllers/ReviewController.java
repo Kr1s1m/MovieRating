@@ -2,9 +2,6 @@ package com.fmi.MovieRating.controllers;
 
 import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.mappers.ReviewMapper;
-import com.fmi.MovieRating.models.Movie;
-import com.fmi.MovieRating.models.Review;
-import com.fmi.MovieRating.repositories.ReviewRepository;
 import com.fmi.MovieRating.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
