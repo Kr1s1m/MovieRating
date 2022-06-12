@@ -16,9 +16,4 @@ public class MovieRatingApplication {
 		SpringApplication.run(MovieRatingApplication.class, args);
 
 	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 }
