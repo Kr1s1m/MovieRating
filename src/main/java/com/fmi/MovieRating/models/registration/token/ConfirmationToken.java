@@ -14,17 +14,9 @@ import java.time.LocalDateTime;
 @Entity
 public class ConfirmationToken {
 
-    @SequenceGenerator(
-            name = "confirmation_token_sequence",
-            sequenceName = "confirmation_token_sequence",
-            allocationSize = 1
-    )
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "confirmation_token_sequence"
-    )
-    @Column(name = "token_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "token_id", nullable = false)
     private Long id;
 
     @Column(name = "token", nullable = false)
@@ -39,11 +31,8 @@ public class ConfirmationToken {
     @Column(name = "confirmed_at")
     private LocalDateTime confirmedAt;
 
-    @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "user_id"
-    )
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public ConfirmationToken(String token,

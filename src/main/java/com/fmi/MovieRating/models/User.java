@@ -1,6 +1,7 @@
 package com.fmi.MovieRating.models;
 
 import com.fmi.MovieRating.models.enums.UserAccessType;
+import com.fmi.MovieRating.models.registration.token.ConfirmationToken;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -19,7 +22,7 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(indexes = { @Index(columnList = "user_id") })
+@Table(name = "users", indexes = { @Index(columnList = "user_id") })
 public class User implements UserDetails {
 
     @Id
@@ -51,6 +54,9 @@ public class User implements UserDetails {
 
     @Column(name = "enabled", unique = true)
     private Boolean enabled = false;
+
+    @OneToMany(mappedBy = "user")
+    Set<ConfirmationToken> confirmationTokens = new HashSet<>();
 
     public User(String firstName,
                 String lastName,

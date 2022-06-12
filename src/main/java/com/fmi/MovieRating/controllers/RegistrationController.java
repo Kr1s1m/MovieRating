@@ -3,13 +3,10 @@ package com.fmi.MovieRating.controllers;
 import com.fmi.MovieRating.models.registration.RegistrationRequest;
 import com.fmi.MovieRating.services.RegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/registrations")
+@RequestMapping("api/v1/registration")
 @AllArgsConstructor
 public class RegistrationController {
 
@@ -20,4 +17,8 @@ public class RegistrationController {
         return registrationService.register(registrationRequest);
     }
 
+    @GetMapping(path = "confirm")
+    public String confirm(@RequestParam("token") String token) {
+        return registrationService.confirmToken(token);
+    }
 }
