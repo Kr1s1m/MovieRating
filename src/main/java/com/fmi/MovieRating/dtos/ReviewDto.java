@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ReviewDto {
-    private Integer id;
+    private Long id;
     private Integer movieId;
 
     private String title;
@@ -16,7 +16,7 @@ public class ReviewDto {
     private LocalDateTime date;
 
     public ReviewDto() {
-        id = 0;
+        id = Long.valueOf(0);
         movieId = 0;
         title = "";
         reviewerName = "";
@@ -38,7 +38,7 @@ public class ReviewDto {
     }
 
     //mapper constructor
-    public ReviewDto(Integer id, Integer movieId, String title,
+    public ReviewDto(Long id, Integer movieId, String title,
                      String reviewerName, Short score, String body, LocalDateTime date) {
 
         this.id = id;

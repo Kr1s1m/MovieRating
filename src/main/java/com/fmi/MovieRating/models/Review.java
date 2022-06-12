@@ -16,7 +16,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id")
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
