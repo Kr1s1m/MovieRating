@@ -1,7 +1,6 @@
 package com.fmi.MovieRating.models;
 
-import com.fmi.MovieRating.models.enums.UserAccessType;
-import com.fmi.MovieRating.models.registration.token.ConfirmationToken;
+import com.fmi.MovieRating.models.enums.AccessType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,60 +21,53 @@ import java.util.Set;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "users", indexes = { @Index(columnList = "user_id") })
-public class User implements UserDetails {
+@Table(indexes = {@Index(columnList = "account_id")})
+public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "account_id", nullable = false)
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "username", unique = true)
+    @Column(name = "account_username", length = 25, unique = true)
     private String username; //unique
 
-    @Column(name = "email", unique = true)
+    @Column(name = "account_email", unique = true)
     private String email; //unique
 
-    @Column(name = "password")
+    @Column(name = "account_password")
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_access_type")
-    private UserAccessType userAccessType;
+    @Column(name = "account_access_type")
+    private AccessType accessType;
 
-    @Column(name = "locked", unique = true)
-    private Boolean locked = false;
+    @Column(name = "account_locked")
+    private Boolean locked;
 
-    @Column(name = "enabled", unique = true)
-    private Boolean enabled = false;
+    @Column(name = "account_enabled")
+    private Boolean enabled;
 
-    @OneToMany(mappedBy = "user")
-    Set<ConfirmationToken> confirmationTokens = new HashSet<>();
+    @OneToMany(mappedBy = "account")
+    Set<ConfirmationToken> confirmationTokens;
 
-    public User(String firstName,
-                String lastName,
-                String username,
-                String email,
-                String password,
-                UserAccessType userAccessType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Account(String username,
+                   String email,
+                   String password,
+                   AccessType accessType) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.userAccessType = userAccessType;
+        this.accessType = accessType;
+        this.locked = false;
+        this.enabled = false;
+        this.confirmationTokens = new HashSet<>();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
-                 new SimpleGrantedAuthority(userAccessType.name());
+                new SimpleGrantedAuthority(accessType.name());
         return Collections.singletonList(authority);
     }
 

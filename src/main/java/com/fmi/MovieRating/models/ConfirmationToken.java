@@ -1,6 +1,6 @@
-package com.fmi.MovieRating.models.registration.token;
+package com.fmi.MovieRating.models;
 
-import com.fmi.MovieRating.models.User;
+import com.fmi.MovieRating.models.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,29 +19,29 @@ public class ConfirmationToken {
     @Column(name = "token_id", nullable = false)
     private Long id;
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "token_token", nullable = false)
     private String token;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "token_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "expires_at", nullable = false)
+    @Column(name = "token_expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(name = "confirmed_at")
+    @Column(name = "token_confirmed_at")
     private LocalDateTime confirmedAt;
 
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     public ConfirmationToken(String token,
                              LocalDateTime createdAt,
                              LocalDateTime expiresAt,
-                             User user) {
+                             Account account) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.user = user;
+        this.account = account;
     }
 }
