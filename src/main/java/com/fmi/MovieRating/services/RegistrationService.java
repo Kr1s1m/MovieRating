@@ -1,10 +1,11 @@
 package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.email.EmailSender;
-import com.fmi.MovieRating.models.registration.token.ConfirmationToken;
-import com.fmi.MovieRating.models.registration.RegistrationRequest;
-import com.fmi.MovieRating.models.User;
-import com.fmi.MovieRating.models.enums.UserAccessType;
+import com.fmi.MovieRating.email.EmailValidator;
+import com.fmi.MovieRating.models.Account;
+import com.fmi.MovieRating.models.ConfirmationToken;
+import com.fmi.MovieRating.dtos.RegistrationRequest;
+import com.fmi.MovieRating.models.enums.AccessType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,40 +15,43 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class RegistrationService {
-    private final UserService userService;
-//    private final EmailValidator emailValidator;
+
+    private final AccountService accountService;
     private final ConfirmationTokenService confirmationTokenService;
+    private final EmailValidator emailValidator;
     private final EmailSender emailSender;
 
+
     public String register(RegistrationRequest request) {
-       /* boolean isValidEmail = emailValidator.
-                test(request.getEmail());
+
+        boolean isValidEmail = emailValidator.test(request
+                .getEmail());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
-        }*/
+        }
 
-        String token = userService.signUpUser(
-                new User(
-                        request.getFirstName(),
-                        request.getLastName(),
+        String token = accountService.signUpUser(
+                new Account(
                         request.getUsername(),
                         request.getEmail(),
                         request.getPassword(),
-                        UserAccessType.USER
+                        AccessType.User
                 )
         );
+
 
         String link = "http://localhost:8088/api/v1/registration/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getFirstName(), link));
+                buildEmail(request.getUsername(), link));
 
         return token;
     }
 
     @Transactional
     public String confirmToken(String token) {
+
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
@@ -57,19 +61,20 @@ public class RegistrationService {
             throw new IllegalStateException("email already confirmed");
         }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        userService.enableAppUser(
-                confirmationToken.getUser().getEmail());
+
+        accountService.enableAccount(confirmationToken.getAccount().getEmail());
         return "confirmed";
     }
 
-    private String buildEmail(String name, String link) {
+
+    private String buildEmail(String username, String link) {
+
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -125,7 +130,7 @@ public class RegistrationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + username + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +

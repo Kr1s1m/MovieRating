@@ -1,6 +1,6 @@
 # MovieRating (IMDb+Reddit)
 
-The idea of the project is to develop a web-based movie rating system similar to IMDb combined with Reddit. The system will contain information about movies and real life individuals who participated in their creation. The system will allow users to review and rate movies. The users will also be able to upvote and downvote user reviews which will generate user karma.
+The idea of the project is to develop a web-based movie rating system similar to IMDb combined with Reddit. The system will contain information about movies and real life individuals who participated in their creation. The system will allow users to review and rate movies. The users will also be able to upvote and downvote account reviews which will generate account karma.
 
 
 ## ***Basic Business Requirements***
@@ -11,7 +11,7 @@ The idea of the project is to develop a web-based movie rating system similar to
   - User reviews (comments with or without rating the movie)
   - Functionality to jump to a person (actor/director/writer/etc) page
   - Functionality for users to leave reviews (and additionally if advanced requirements are met then also - edit own reviews, delete own reviews)
-  - Functionality for users to upvote or downvote user reviews
+  - Functionality for users to upvote or downvote account reviews
   
 - A filmography page for people (actors/directors/writers/etc) which contains:
   - Information about the person (Biography)
@@ -31,12 +31,12 @@ The idea of the project is to develop a web-based movie rating system similar to
   - User reviews
   
 - Administration registry for users with the following actions:
-  - Create user 
-  - Remove user
-  - Modify user information
+  - Create account 
+  - Remove account
+  - Modify account information
   
 - Add authorization so that only admin and moderator users can:
-  - Create/Update/Delete user reviews
+  - Create/Update/Delete account reviews
   - Create/Update/Delete users
   
 - Add authorization so that only admin users can:

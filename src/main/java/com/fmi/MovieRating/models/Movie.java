@@ -11,12 +11,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(indexes = { @Index(columnList = "movie_id")  })
+@Table(indexes = {@Index(columnList = "movie_id")})
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movie_id")
+    @Column(name = "movie_id", nullable = false)
     private Integer id;
 
     @Column(name = "movie_title", nullable = false, length = 70)
@@ -36,8 +36,7 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private Set<StarsIn> starredIn;
 
-    public Movie(String title, Short year, String description)
-    {
+    public Movie(String title, Short year, String description) {
         this.title = title;
         this.year = year;
         this.description = description;
@@ -45,8 +44,7 @@ public class Movie {
         this.starredIn = new HashSet<>();
     }
 
-    public Movie()
-    {
+    public Movie() {
         title = "";
         year = 0;
         description = "";

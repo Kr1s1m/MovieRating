@@ -15,7 +15,7 @@ public class StarsIn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "star_id")
+    @Column(name = "star_id", nullable = false)
     private Integer id;
 
     @ManyToOne
@@ -26,7 +26,7 @@ public class StarsIn {
     @JoinColumn(name = "individual_id", nullable = false)
     private Individual individual;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "star_type")
     private StarType type;
 
