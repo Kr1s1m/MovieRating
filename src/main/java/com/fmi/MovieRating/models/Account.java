@@ -48,8 +48,8 @@ public class Account implements UserDetails {
     @Column(name = "account_enabled")
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "account")
-    Set<ConfirmationToken> confirmationTokens;
+    @OneToOne(mappedBy = "account")
+    ConfirmationToken confirmationToken;
 
     public Account(String username,
                    String email,
@@ -61,7 +61,6 @@ public class Account implements UserDetails {
         this.accessType = accessType;
         this.locked = false;
         this.enabled = false;
-        this.confirmationTokens = new HashSet<>();
     }
 
     @Override

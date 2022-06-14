@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,18 +26,19 @@ public class AccountService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public Account loadUserByUsername(String email) throws UsernameNotFoundException {
         return accountRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(ACCOUNT_NOT_FOUND_MSG, email)));
     }
 
-    public String signUpUser(Account account) {
-        boolean accountExists = accountRepository.findByEmail(account.getEmail()).isPresent();
+    public Optional<Account> findByEmail(String email) {
 
-        if(accountExists){
-            throw new IllegalStateException("email already taken");
-        }
+        return accountRepository.findByEmail(email);
+    }
+
+    public String signUpUser(Account account) {
+
 
         String encodedPassword = bCryptPasswordEncoder
                 .encode(account.getPassword());
@@ -48,8 +50,7 @@ public class AccountService implements UserDetailsService {
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
+                LocalDateTime.now().plusHours(24),
                 account
         );
 
