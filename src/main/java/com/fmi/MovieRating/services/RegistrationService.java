@@ -1,7 +1,6 @@
 package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.email.EmailSender;
-import com.fmi.MovieRating.email.EmailValidator;
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.models.ConfirmationToken;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
@@ -18,35 +17,14 @@ public class RegistrationService {
 
     private final AccountService accountService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailValidator emailValidator;
     private final EmailSender emailSender;
 
 
-    public String register(RegistrationRequest request) {
+    public void register(Account account) {
 
-        boolean isValidEmail = emailValidator.test(request
-                .getEmail());
+        String token = accountService.signUpUser(account);
 
-        if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
-        }
-
-        String token = accountService.signUpUser(
-                new Account(
-                        request.getUsername(),
-                        request.getEmail(),
-                        request.getPassword(),
-                        AccessType.User
-                )
-        );
-
-
-        String link = "http://localhost:8088/api/v1/registration/confirm?token=" + token;
-        emailSender.send(
-                request.getEmail(),
-                buildEmail(request.getUsername(), link));
-
-        return token;
+        sendEmail(account, token);
     }
 
     @Transactional
@@ -57,21 +35,31 @@ public class RegistrationService {
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
-        }
-
-
-        if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
-
-        confirmationTokenService.setConfirmedAt(token);
-
         accountService.enableAccount(confirmationToken.getAccount().getEmail());
         return "confirmed";
     }
 
+    public void existingAccountHandler(Account account) {
+        if (account.isEnabled()) {
+            throw new IllegalStateException("email already taken");
+        }
+
+        ConfirmationToken confirmationToken = account.getConfirmationToken();
+
+        if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            sendEmail(account, confirmationToken.getToken());
+        }
+
+        throw new IllegalStateException("verify the token sent to your email");
+    }
+
+    private void sendEmail(Account account, String token)
+    {
+        String link = "http://localhost:8088/api/v1/registration/confirm?token=" + token;
+        emailSender.send(
+                account.getEmail(),
+                buildEmail(account.getUsername(), link));
+    }
 
     private String buildEmail(String username, String link) {
 
