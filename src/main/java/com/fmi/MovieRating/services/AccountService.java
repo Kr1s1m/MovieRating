@@ -38,8 +38,6 @@ public class AccountService implements UserDetailsService {
     }
 
     public String signUpUser(Account account) {
-
-
         String encodedPassword = bCryptPasswordEncoder
                 .encode(account.getPassword());
 
@@ -53,7 +51,6 @@ public class AccountService implements UserDetailsService {
                 LocalDateTime.now().plusHours(24),
                 account
         );
-
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         //send confirmation token

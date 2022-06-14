@@ -1,5 +1,6 @@
 package com.fmi.MovieRating.controllers;
 
+import com.fmi.MovieRating.dtos.AccountDto;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.email.EmailSender;
 import com.fmi.MovieRating.email.EmailValidator;
@@ -21,13 +22,11 @@ import java.util.Optional;
 public class RegistrationController {
 
     private final RegistrationService registrationService;
-    private final EmailSender emailSender;
     private final EmailValidator emailValidator;
     private final AccountService accountService;
 
     @PostMapping("/registration")
-    public void register(@RequestBody RegistrationRequest registrationRequest) {
-
+    public String register(@RequestBody RegistrationRequest registrationRequest) {
         boolean isValidEmail = emailValidator.test(registrationRequest
                 .getEmail());
 
@@ -37,11 +36,9 @@ public class RegistrationController {
 
         Optional<Account> existingAccount = accountService.findByEmail(registrationRequest.getEmail());
 
-        if(existingAccount.isPresent()){
+        if (existingAccount.isPresent()) {
             registrationService.existingAccountHandler(existingAccount.get());
-        }
-        else
-        {
+        } else {
             registrationService.register(
                     new Account(
                             registrationRequest.getUsername(),
@@ -50,12 +47,11 @@ public class RegistrationController {
                             AccessType.User)
             );
         }
-
+        return "In order to complete registration, please follow the link send to your email.";
     }
 
     @GetMapping("/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
-
         return registrationService.confirmToken(token);
     }
 }
