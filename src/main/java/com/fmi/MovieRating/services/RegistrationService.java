@@ -1,5 +1,6 @@
 package com.fmi.MovieRating.services;
 
+import com.fmi.MovieRating.dtos.AccountDto;
 import com.fmi.MovieRating.email.EmailSender;
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.models.ConfirmationToken;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -21,22 +23,19 @@ public class RegistrationService {
 
 
     public void register(Account account) {
-
         String token = accountService.signUpUser(account);
-
         sendEmail(account, token);
     }
 
     @Transactional
     public String confirmToken(String token) {
-
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
         accountService.enableAccount(confirmationToken.getAccount().getEmail());
-        return "confirmed";
+        return "Your account has been confirmed.";
     }
 
     public void existingAccountHandler(Account account) {
@@ -45,12 +44,15 @@ public class RegistrationService {
         }
 
         ConfirmationToken confirmationToken = account.getConfirmationToken();
-
         if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            String newToken = UUID.randomUUID().toString();
+            String oldToken = confirmationToken.getToken();
+            confirmationTokenService.updateConfirmationToken(oldToken, newToken);
+
+            sendEmail(account, newToken);
+        } else {
             sendEmail(account, confirmationToken.getToken());
         }
-
-        throw new IllegalStateException("verify the token sent to your email");
     }
 
     private void sendEmail(Account account, String token)
