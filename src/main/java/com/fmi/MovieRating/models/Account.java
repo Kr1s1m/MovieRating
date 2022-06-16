@@ -10,10 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Getter
@@ -42,14 +41,14 @@ public class Account implements UserDetails {
     @Column(name = "account_access_type")
     private AccessType accessType;
 
-    @Column(name = "account_locked")
-    private Boolean locked;
-
     @Column(name = "account_enabled")
     private Boolean enabled;
 
+    @Column(name="account_date_created")
+    private LocalDateTime dateCreated;
+
     @OneToOne(mappedBy = "account")
-    ConfirmationToken confirmationToken;
+    VerificationToken verificationToken;
 
     public Account(String username,
                    String email,
@@ -59,8 +58,8 @@ public class Account implements UserDetails {
         this.email = email;
         this.password = password;
         this.accessType = accessType;
-        this.locked = false;
         this.enabled = false;
+        dateCreated = null;
     }
 
     @Override
@@ -87,7 +86,7 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return true;
     }
 
     @Override
