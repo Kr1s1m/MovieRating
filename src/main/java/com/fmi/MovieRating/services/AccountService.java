@@ -1,64 +1,28 @@
 package com.fmi.MovieRating.services;
 
-import com.fmi.MovieRating.models.Account;
-import com.fmi.MovieRating.models.ConfirmationToken;
-import com.fmi.MovieRating.repositories.AccountRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
-@Service
-@AllArgsConstructor
-public class AccountService implements UserDetailsService {
+import com.fmi.MovieRating.dtos.RegistrationRequest;
+import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
+import com.fmi.MovieRating.models.Account;
 
-    private final static String ACCOUNT_NOT_FOUND_MSG =
-            "account with email %s not found.";
 
-    private final AccountRepository accountRepository;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//TODO LOOK ACCOUNT, ACCDTO, REGISTRATIONREQUESTDTO
 
-    @Override
-    public Account loadUserByUsername(String email) throws UsernameNotFoundException {
-        return accountRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(String.format(ACCOUNT_NOT_FOUND_MSG, email)));
-    }
+public interface AccountService {
 
-    public Optional<Account> findByEmail(String email) {
+    public Account registerNewAccount(RegistrationRequest registrationRequest) throws AccountAlreadyExistAuthenticationException;
 
-        return accountRepository.findByEmail(email);
-    }
+    Optional<Account> findAccountByEmail(String email);
 
-    public String signUpUser(Account account) {
-        String encodedPassword = bCryptPasswordEncoder
-                .encode(account.getPassword());
+    Optional<Account> findAccountById(Long id);
 
-        account.setPassword(encodedPassword);
+    //LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
 
-        accountRepository.save(account);
+    void createVerificationTokenForAccount(Account account, String token);
 
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now().plusHours(24),
-                account
-        );
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+    boolean resendVerificationToken(String token);
 
-        //send confirmation token
-
-        return token;
-    }
-
-    public int enableAccount(String email) {
-        return accountRepository.enableAccount(email);
-    }
+    String validateVerificationToken(String token);
 }
