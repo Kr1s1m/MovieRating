@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @RestController
@@ -41,5 +42,21 @@ public class AuthenticationController {
 
 
         return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @GetMapping("/token/verify")
+    public ResponseEntity<?> confirmRegistration(@NotEmpty @RequestParam("token") String token) {
+        System.out.println(token);
+        final String result = accountService.validateVerificationToken(token);
+        return ResponseEntity.ok().body(new ApiResponse(true, result));
+    }
+
+    @GetMapping("/token/resend")
+    @ResponseBody
+    public ResponseEntity<?> resendRegistrationToken(@NotEmpty @RequestParam("token") String expiredToken) {
+        if (!accountService.resendVerificationToken(expiredToken)) {
+            return new ResponseEntity<>(new ApiResponse(false, "Token not found!"), HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok().body(new ApiResponse(true, "Successfully resent token"));
     }
 }

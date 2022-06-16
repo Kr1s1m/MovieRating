@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -21,6 +22,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     @Transactional
@@ -38,9 +42,6 @@ public class AccountServiceImpl implements AccountService {
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
                 AccessType.User);
-
-        //TODO:TO BE SET WHEN ACCOUNT GETS ACTIVATED
-        account.setDateCreated(LocalDateTime.now());
 
         account = accountRepository.saveAndFlush(account);
 
@@ -67,14 +68,40 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public boolean resendVerificationToken(String token) {
+    public boolean resendVerificationToken(String existingVerificationToken) {
 
+        Optional<VerificationToken> maybeToken = verificationTokenRepository.findByToken(existingVerificationToken);
+        if(maybeToken.isPresent()) {
+            VerificationToken verificationToken = maybeToken.get();
+
+            verificationToken.updateToken(UUID.randomUUID().toString());
+            verificationToken = verificationTokenRepository.save(verificationToken);
+            mailService.sendVerificationToken(verificationToken.getToken(), verificationToken.getAccount());
+            return true;
+        }
         return false;
     }
 
     @Override
     public String validateVerificationToken(String token) {
 
-        return null;
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+
+        if (!verificationToken.isPresent()) {
+            return "INVALID TOKEN";
+        }
+
+        final Account account = verificationToken.get().getAccount();
+        if (verificationToken.get().getExpiryDate().isBefore(LocalDateTime.now())) {
+            return "EXPIRED TOKEN";
+        }
+
+        account.setEnabled(true);
+        account.setDateCreated(LocalDateTime.now());
+
+        verificationTokenRepository.delete(verificationToken.get());
+        accountRepository.save(account);
+
+        return "TOKEN VALID";
     }
 }
