@@ -8,12 +8,15 @@ import com.fmi.MovieRating.models.enums.AccessType;
 import com.fmi.MovieRating.repositories.AccountRepository;
 import com.fmi.MovieRating.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.fmi.MovieRating.mappers.AccountMapper.fromRegistrationRequestToAccount;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -24,6 +27,9 @@ public class AccountServiceImpl implements AccountService {
     VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
     MailService mailService;
 
     @Override
@@ -31,17 +37,15 @@ public class AccountServiceImpl implements AccountService {
     public Account registerNewAccount(RegistrationRequest registrationRequest) throws AccountAlreadyExistAuthenticationException {
 
         if (accountRepository.existsByEmail(registrationRequest.getEmail())) {
-            throw new AccountAlreadyExistAuthenticationException("User with email " + registrationRequest.getEmail() + " already exists");
+            throw new AccountAlreadyExistAuthenticationException("User with email " + registrationRequest.getEmail() + " already exists.");
         } else if (accountRepository.existsByUsername(registrationRequest.getUsername())) {
-            throw new AccountAlreadyExistAuthenticationException("User with username " + registrationRequest.getUsername() + " already exists");
+            throw new AccountAlreadyExistAuthenticationException("User with username " + registrationRequest.getUsername() + " already exists.");
         }
 
-        //TODO: MAKE IT WITH MAPPER
-        Account account = new Account(
-                registrationRequest.getUsername(),
-                registrationRequest.getEmail(),
-                registrationRequest.getPassword(),
-                AccessType.User);
+        Account account = fromRegistrationRequestToAccount(registrationRequest);
+
+        account.setAccessType(AccessType.User);
+        account.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
 
         account = accountRepository.saveAndFlush(account);
 

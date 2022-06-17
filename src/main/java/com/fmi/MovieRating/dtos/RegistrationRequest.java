@@ -3,14 +3,12 @@ package com.fmi.MovieRating.dtos;
 
 import com.fmi.MovieRating.validator.PasswordMatches;
 import com.fmi.MovieRating.validator.ValidEmail;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
 @PasswordMatches
 public class RegistrationRequest {
     @NotEmpty

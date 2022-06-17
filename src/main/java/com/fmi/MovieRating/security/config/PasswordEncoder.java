@@ -1,4 +1,4 @@
-package com.fmi.MovieRating.security;
+package com.fmi.MovieRating.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

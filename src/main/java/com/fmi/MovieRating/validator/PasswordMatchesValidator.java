@@ -1,9 +1,9 @@
 package com.fmi.MovieRating.validator;
 
+import com.fmi.MovieRating.dtos.RegistrationRequest;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import com.fmi.MovieRating.dtos.RegistrationRequest;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, RegistrationRequest> {
 

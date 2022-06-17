@@ -1,14 +1,8 @@
 package com.fmi.MovieRating.services;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import com.fmi.MovieRating.configuration.AppProperties;
 import com.fmi.MovieRating.models.Account;
-
+import freemarker.template.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +13,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import freemarker.template.Configuration;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class MailServiceImpl implements MailService {
 
-
     private final Logger logger = LogManager.getLogger(getClass());
     private static final String SUPPORT_EMAIL = "support.email";
-    public final static String BASE_URL = "baseUrl";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -44,7 +39,7 @@ public class MailServiceImpl implements MailService {
     @Async
     @Override
     public void sendVerificationToken(String token, Account account) {
-        final String confirmationUrl = appProperties.getClient().getBaseUrl() + "api/v1/auth/token/verify?token=" + token;
+        final String confirmationUrl = appProperties.getClient().getBaseUrl() + "api/v1/authentication/token/verify?token=" + token;
         final String message = "Verify your email.";
         sendHtmlEmail("Registration Confirmation", message + "<br>" + "<a href=" + confirmationUrl + ">Activate</a>", account);
     }
@@ -55,7 +50,7 @@ public class MailServiceImpl implements MailService {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(templateName), model));
             return content.toString();
         } catch (Exception e) {
-            System.out.println("Exception occured while processing fmtemplate:" + e.getMessage());
+            System.out.println("Exception occurred while processing FreeMarker template:" + e.getMessage());
         }
         return "";
     }
@@ -65,7 +60,7 @@ public class MailServiceImpl implements MailService {
         model.put("name", account.getUsername());
         model.put("msg", msg);
         model.put("title", subject);
-        model.put(BASE_URL, appProperties.getClient().getBaseUrl());
+        model.put("baseUrl", appProperties.getClient().getBaseUrl());
         try {
             sendHtmlMail(env.getProperty(SUPPORT_EMAIL), account.getEmail(), subject, geFreeMarkerTemplateContent(model, "mail/verification.ftl"));
         } catch (MessagingException e) {
