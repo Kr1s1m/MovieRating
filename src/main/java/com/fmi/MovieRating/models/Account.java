@@ -29,10 +29,10 @@ public class Account implements UserDetails {
     private Long id;
 
     @Column(name = "account_username", length = 25, unique = true)
-    private String username; //unique
+    private String username;
 
     @Column(name = "account_email", unique = true)
-    private String email; //unique
+    private String email;
 
     @Column(name = "account_password")
     private String password;
@@ -43,6 +43,9 @@ public class Account implements UserDetails {
 
     @Column(name = "account_enabled")
     private Boolean enabled;
+
+    @Column(name = "account_locked")
+    private Boolean locked;
 
     @Column(name="account_date_created")
     private LocalDateTime dateCreated;
@@ -59,6 +62,19 @@ public class Account implements UserDetails {
         this.password = password;
         this.accessType = accessType;
         this.enabled = false;
+        this.locked = false;
+        dateCreated = null;
+    }
+
+    //constructor for mapper
+    public Account(String username,
+                   String email) {
+        this.username = username;
+        this.email = email;
+        this.password = "password";
+        this.accessType = AccessType.User;
+        this.enabled = false;
+        this.locked = false;
         dateCreated = null;
     }
 

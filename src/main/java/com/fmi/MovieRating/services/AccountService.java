@@ -1,14 +1,11 @@
 package com.fmi.MovieRating.services;
 
-import java.util.Map;
-import java.util.Optional;
-
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
 
+import java.util.Optional;
 
-//TODO LOOK ACCOUNT, ACCDTO, REGISTRATIONREQUESTDTO
 
 public interface AccountService {
 

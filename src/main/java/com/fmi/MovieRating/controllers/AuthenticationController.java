@@ -6,7 +6,6 @@ import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.services.AccountService;
 import com.fmi.MovieRating.services.MailService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1/authentication")
 public class AuthenticationController {
 
     @Autowired

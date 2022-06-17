@@ -1,10 +1,10 @@
 package com.fmi.MovieRating.exceptions;
 
-import java.lang.reflect.Method;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+
+import java.lang.reflect.Method;
 
 public class CustomAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
     private final Logger logger = LogManager.getLogger(getClass());

@@ -1,19 +1,12 @@
 package com.fmi.MovieRating.models;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -23,7 +16,7 @@ public abstract class AbstractToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int EXPIRATION = 24;
+    private static final int EXPIRATION = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +25,7 @@ public abstract class AbstractToken implements Serializable {
     private String token;
 
     @OneToOne(targetEntity = Account.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "account_id")
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     private LocalDateTime expiryDate;
@@ -108,7 +101,7 @@ public abstract class AbstractToken implements Serializable {
         return builder.toString();
     }
 
-    private static LocalDateTime calculateExpiryDate(final int expiryTimeInHours) {
-        return LocalDateTime.now().plusHours(expiryTimeInHours);
+    private static LocalDateTime calculateExpiryDate(final int expiryTimeInMinutes) {
+        return LocalDateTime.now().plusMinutes(expiryTimeInMinutes);
     }
 }
