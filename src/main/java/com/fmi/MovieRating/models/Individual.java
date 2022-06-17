@@ -1,6 +1,5 @@
 package com.fmi.MovieRating.models;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;

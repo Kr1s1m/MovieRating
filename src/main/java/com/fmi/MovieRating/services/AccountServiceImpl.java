@@ -8,6 +8,8 @@ import com.fmi.MovieRating.models.enums.AccessType;
 import com.fmi.MovieRating.repositories.AccountRepository;
 import com.fmi.MovieRating.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -108,4 +110,5 @@ public class AccountServiceImpl implements AccountService {
 
         return "TOKEN VALID";
     }
+
 }

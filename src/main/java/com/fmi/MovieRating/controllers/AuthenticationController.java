@@ -1,14 +1,21 @@
 package com.fmi.MovieRating.controllers;
 
 import com.fmi.MovieRating.dtos.ApiResponse;
+import com.fmi.MovieRating.dtos.LoginRequest;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
+import com.fmi.MovieRating.security.AccountDetails;
 import com.fmi.MovieRating.services.AccountService;
 import com.fmi.MovieRating.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +33,9 @@ public class AuthenticationController {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerAccount(@Valid @RequestBody RegistrationRequest registrationRequest) {
         try {
@@ -34,13 +44,28 @@ public class AuthenticationController {
             accountService.createVerificationTokenForAccount(account, token);
             mailService.sendVerificationToken(token, account);
 
-
         } catch (AccountAlreadyExistAuthenticationException e) {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
-
         return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest) {
+
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            AccountDetails accountDetails = (AccountDetails) authentication.getPrincipal();
+
+            return new ResponseEntity<>(new ApiResponse(true, "Success. Account registered on: " + accountDetails.getDateCreated()), HttpStatus.ACCEPTED);
+        }catch (AuthenticationException ae){
+            return new ResponseEntity<>(new ApiResponse(false, "Login failed because " + ae.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/token/verify")
