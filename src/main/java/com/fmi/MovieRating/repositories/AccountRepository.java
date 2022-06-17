@@ -18,10 +18,4 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Account a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
-    int enableAccount(String email);
 }

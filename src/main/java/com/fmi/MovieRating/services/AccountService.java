@@ -3,13 +3,15 @@ package com.fmi.MovieRating.services;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
 
 public interface AccountService {
 
-    public Account registerNewAccount(RegistrationRequest registrationRequest) throws AccountAlreadyExistAuthenticationException;
+    Account registerNewAccount(RegistrationRequest registrationRequest) throws AccountAlreadyExistAuthenticationException;
 
     Optional<Account> findAccountByEmail(String email);
 

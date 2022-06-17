@@ -21,7 +21,7 @@ import java.util.Collections;
 @NoArgsConstructor
 @Entity
 @Table(indexes = {@Index(columnList = "account_id")})
-public class Account implements UserDetails {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +48,7 @@ public class Account implements UserDetails {
     private Boolean locked;
 
     @Column(name="account_date_created")
-    private LocalDateTime dateCreated;
+    private LocalDateTime dateCreated; //TODO: Change to LocalDate?
 
     @OneToOne(mappedBy = "account")
     VerificationToken verificationToken;
@@ -76,43 +76,6 @@ public class Account implements UserDetails {
         this.enabled = false;
         this.locked = false;
         dateCreated = null;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(accessType.name());
-        return Collections.singletonList(authority);
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
     }
 }
 
