@@ -13,11 +13,27 @@ values
 /*
 insert into stars_in (star_id, individual_id, movie_id, star_type)
 values
-
+(1, 1, 7, 'Actor'),
+(2, 6, 7, 'Actor'),
+(3, 2, 7, 'Director'),
+(4, 2, 7, 'Writer'),
+(5, 5, 9, 'Actor'),
+(6, 3, 9, 'Actor'),
+(7, 4, 9, 'Actor'),
+(8, 5, 9, 'Actor'),
+(9, 3, 12, 'Actor'),
+(10, 2, 12, 'Actor'),
+(11, 1, 12, 'Actor'),
+(12, 6, 12, 'Actor'),
+(13, 6, 12, 'Director'),
+(14, 6, 12, 'Writer'),
+(15, 4, 12, 'Producer')
 */
 
+
+/*select * from account;*/
 
 /*select * from movie;*/
 /*select * from stars_in;*/
 /*select * from individual;*/
-/*select individual.*, star_type from stars_in inner join individual on individual.individual_id = stars_in.individual_id where movie_id = 99;*/
+/*select individual.*, star_type from stars_in inner join individual on individual.individual_id = stars_in.individual_id where movie_id = 7;*/

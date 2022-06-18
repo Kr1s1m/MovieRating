@@ -2,8 +2,6 @@ package com.fmi.MovieRating.repositories;
 
 import com.fmi.MovieRating.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByEmail(String email);
-    Optional<Account> findByUsername(String username);
+    //Optional<Account> findByUsername(String username);
 
     boolean existsByEmail(String email);
 
