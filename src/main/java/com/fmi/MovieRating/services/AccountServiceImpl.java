@@ -3,9 +3,11 @@ package com.fmi.MovieRating.services;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
+import com.fmi.MovieRating.models.Role;
 import com.fmi.MovieRating.models.VerificationToken;
 import com.fmi.MovieRating.models.enums.AccessType;
 import com.fmi.MovieRating.repositories.AccountRepository;
+import com.fmi.MovieRating.repositories.RoleRepository;
 import com.fmi.MovieRating.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.fmi.MovieRating.mappers.AccountMapper.fromRegistrationRequestToAccount;
@@ -32,6 +36,9 @@ public class AccountServiceImpl implements AccountService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
     MailService mailService;
 
     @Override
@@ -46,7 +53,16 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = fromRegistrationRequestToAccount(registrationRequest);
 
-        account.setAccessType(AccessType.User);
+        Set<Role> roles = new HashSet<>();
+        Optional<Role> accountRole = roleRepository.findByAccessType(AccessType.User);
+        if (accountRole.isEmpty()) {
+            roles.add(roleRepository.save(new Role(AccessType.User)));
+        } else {
+            roles.add(accountRole.get());
+        }
+
+        account.setRoles(roles);
+
         account.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
 
         account = accountRepository.saveAndFlush(account);
@@ -77,7 +93,7 @@ public class AccountServiceImpl implements AccountService {
     public boolean resendVerificationToken(String existingVerificationToken) {
 
         Optional<VerificationToken> maybeToken = verificationTokenRepository.findByToken(existingVerificationToken);
-        if(maybeToken.isPresent()) {
+        if (maybeToken.isPresent()) {
             VerificationToken verificationToken = maybeToken.get();
 
             verificationToken.updateToken(UUID.randomUUID().toString());

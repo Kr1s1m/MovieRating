@@ -1,5 +1,6 @@
 package com.fmi.MovieRating.security.config;
 
+import com.fmi.MovieRating.security.jwt.JwtUtils;
 import com.fmi.MovieRating.services.AccountDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return new AccountDetailsService();
     }
+
+    @Bean
+    public JwtUtils jwtUtils() {return new JwtUtils();}
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -13,6 +13,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -37,10 +39,6 @@ public class Account {
     @Column(name = "account_password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_access_type")
-    private AccessType accessType;
-
     @Column(name = "account_enabled")
     private Boolean enabled;
 
@@ -48,10 +46,16 @@ public class Account {
     private Boolean locked;
 
     @Column(name="account_date_created")
-    private LocalDateTime dateCreated; //TODO: Change to LocalDate?
+    private LocalDateTime dateCreated;
 
     @OneToOne(mappedBy = "account")
     VerificationToken verificationToken;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "account_roles",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Account(String username,
                    String email,
@@ -60,7 +64,6 @@ public class Account {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.accessType = accessType;
         this.enabled = false;
         this.locked = false;
         dateCreated = null;
@@ -72,7 +75,6 @@ public class Account {
         this.username = username;
         this.email = email;
         this.password = "password";
-        this.accessType = AccessType.User;
         this.enabled = false;
         this.locked = false;
         dateCreated = null;
