@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountDetails implements UserDetails {
 
@@ -19,8 +21,9 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(account.getAccessType().name());
-        return Collections.singletonList(authority);
+        return account.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getAccessType().name()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -53,7 +56,15 @@ public class AccountDetails implements UserDetails {
         return account.getEnabled();
     }
 
-    public LocalDate getDateCreated(){
+    public LocalDate getDateCreated() {
         return account.getDateCreated().toLocalDate();
+    }
+
+    public Long getId() {
+        return account.getId();
+    }
+
+    public String getEmail() {
+        return account.getEmail();
     }
 }

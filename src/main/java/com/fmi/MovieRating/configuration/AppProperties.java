@@ -14,7 +14,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
     private final Auth auth = new Auth();
-    private final OAuth2 oauth2 = new OAuth2();
     private final Client client = new Client();
 
     @Getter
@@ -22,16 +21,6 @@ public class AppProperties {
     public static class Auth {
         private String tokenSecret;
         private long tokenExpirationMsec;
-    }
-
-    @Getter
-    public static final class OAuth2 {
-        private List<String> authorizedRedirectUris = new ArrayList<>();
-
-        public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
-            this.authorizedRedirectUris = authorizedRedirectUris;
-            return this;
-        }
     }
 
     @Getter

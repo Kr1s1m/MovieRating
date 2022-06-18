@@ -1,11 +1,13 @@
 package com.fmi.MovieRating.controllers;
 
 import com.fmi.MovieRating.dtos.ApiResponse;
+import com.fmi.MovieRating.dtos.JwtResponse;
 import com.fmi.MovieRating.dtos.LoginRequest;
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.security.AccountDetails;
+import com.fmi.MovieRating.security.jwt.JwtUtils;
 import com.fmi.MovieRating.services.AccountService;
 import com.fmi.MovieRating.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -35,6 +39,9 @@ public class AuthenticationController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerAccount(@Valid @RequestBody RegistrationRequest registrationRequest) {
@@ -59,9 +66,20 @@ public class AuthenticationController {
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            AccountDetails accountDetails = (AccountDetails) authentication.getPrincipal();
 
-            return new ResponseEntity<>(new ApiResponse(true, "Success. Account registered on: " + accountDetails.getDateCreated()), HttpStatus.ACCEPTED);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            AccountDetails accountDetails = (AccountDetails) authentication.getPrincipal();
+            List<String> roles = accountDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    accountDetails.getId(),
+                    accountDetails.getUsername(),
+                    accountDetails.getEmail(),
+                    roles));
+
         }catch (AuthenticationException ae){
             return new ResponseEntity<>(new ApiResponse(false, "Login failed because " + ae.getMessage()), HttpStatus.BAD_REQUEST);
         }
