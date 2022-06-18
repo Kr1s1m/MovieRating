@@ -1,6 +1,5 @@
 package com.fmi.MovieRating.dtos;
 
-import com.fmi.MovieRating.validator.ValidEmail;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;

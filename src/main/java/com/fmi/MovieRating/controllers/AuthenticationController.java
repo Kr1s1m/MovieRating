@@ -1,9 +1,6 @@
 package com.fmi.MovieRating.controllers;
 
-import com.fmi.MovieRating.dtos.ApiResponse;
-import com.fmi.MovieRating.dtos.JwtResponse;
-import com.fmi.MovieRating.dtos.LoginRequest;
-import com.fmi.MovieRating.dtos.RegistrationRequest;
+import com.fmi.MovieRating.dtos.*;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.security.AccountDetails;
@@ -22,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -66,22 +61,21 @@ public class AuthenticationController {
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            AccountDetails accountDetails = (AccountDetails) authentication.getPrincipal();
 
             String jwt = jwtUtils.generateJwtToken(authentication);
 
-            AccountDetails accountDetails = (AccountDetails) authentication.getPrincipal();
-            List<String> roles = accountDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(new JwtResponse(jwt,
+            AccountInfo accountInfo = new AccountInfo(
                     accountDetails.getId(),
                     accountDetails.getUsername(),
                     accountDetails.getEmail(),
-                    roles));
+                    accountDetails.getRoles()
+            );
+
+            return ResponseEntity.ok(new JwtResponse(jwt, accountInfo));
 
         }catch (AuthenticationException ae){
-            return new ResponseEntity<>(new ApiResponse(false, "Login failed because " + ae.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(false, "Login failed: " + ae.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
     }

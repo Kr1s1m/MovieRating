@@ -1,18 +1,12 @@
 package com.fmi.MovieRating.models;
 
-import com.fmi.MovieRating.models.enums.AccessType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,8 +53,7 @@ public class Account {
 
     public Account(String username,
                    String email,
-                   String password,
-                   AccessType accessType) {
+                   String password) {
         this.username = username;
         this.email = email;
         this.password = password;

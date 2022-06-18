@@ -1,8 +1,7 @@
-package com.fmi.MovieRating.services;
+package com.fmi.MovieRating.security;
 
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.repositories.AccountRepository;
-import com.fmi.MovieRating.security.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

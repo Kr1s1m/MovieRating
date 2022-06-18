@@ -1,54 +1,50 @@
 package com.fmi.MovieRating.security.config;
 
+import com.fmi.MovieRating.exceptions.handler.AuthenticationEntryPointJwt;
+import com.fmi.MovieRating.security.AccountDetailsService;
 import com.fmi.MovieRating.security.jwt.JwtUtils;
-import com.fmi.MovieRating.services.AccountDetailsService;
-import lombok.AllArgsConstructor;
+import com.fmi.MovieRating.security.jwt.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-//@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AuthenticationEntryPointJwt unauthorizedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/v*/authentication/**", "/api/v*/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated().and()
-                .formLogin();
+        http.csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointJwt()).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/api/v*/authentication/**").permitAll()
+                .antMatchers("/api/v*/test/**").permitAll()
+                .anyRequest().authenticated();
 
-
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new AccountDetailsService();
-    }
+    public AccountDetailsService userDetailsService() { return new AccountDetailsService(); }
 
     @Bean
-    public JwtUtils jwtUtils() {return new JwtUtils();}
+    public BCryptPasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(10); }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+    @Override
+    protected void configure(AuthenticationManagerBuilder authBuilder) throws Exception {
+        authBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -58,16 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
+    public JwtUtils jwtUtils() { return new JwtUtils(); }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider());
-    }
-
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() { return new TokenAuthenticationFilter(); }
 }
