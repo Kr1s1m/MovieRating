@@ -72,6 +72,7 @@ public class AuthenticationController {
                     accountDetails.getRoles()
             );
 
+
             return ResponseEntity.ok(new JwtResponse(jwt, accountInfo));
 
         }catch (AuthenticationException ae){

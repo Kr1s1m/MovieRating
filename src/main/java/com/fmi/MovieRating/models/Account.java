@@ -45,7 +45,7 @@ public class Account {
     @OneToOne(mappedBy = "account")
     VerificationToken verificationToken;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(	name = "account_roles",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
