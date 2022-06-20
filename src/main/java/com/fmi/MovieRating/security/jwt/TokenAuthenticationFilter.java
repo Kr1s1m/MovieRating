@@ -1,5 +1,6 @@
 package com.fmi.MovieRating.security.jwt;
 
+import com.fmi.MovieRating.security.AccountDetails;
 import com.fmi.MovieRating.security.AccountDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -29,8 +31,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                UserDetails userDetails = accountDetailsService.loadUserByUsername(username);
+                String email = jwtUtils.getUserNameFromJwtToken(jwt);
+                UserDetails userDetails = accountDetailsService.loadUserByUsername(email);
+
+                System.out.println(userDetails.getAuthorities().
+                        stream().map(item -> item.getAuthority()).collect(Collectors.toList()).get(0)
+                );
+
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

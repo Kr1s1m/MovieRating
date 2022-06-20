@@ -4,6 +4,8 @@ import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.mappers.ReviewMapper;
 import com.fmi.MovieRating.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{movie_id}")
+    //@PreAuthorize("hasRole('User') or hasRole('Admin')")
     public List<ReviewDto> getAllByMovieID(@PathVariable Integer movie_id)
     {
         return reviewService.getReviewsByMovieId(movie_id).stream()
@@ -35,7 +38,9 @@ public class ReviewController {
     }
     //@GetMapping("/{movie_id}/reviews")
 
+
     @PostMapping("/reviews")
+    @PreAuthorize("hasAuthority('User') or hasAuthority('Admin')")
     public ReviewDto createReview(@RequestBody ReviewDto reviewDto){
         return fromReviewToDto(reviewService.createReview(reviewDto));
     }

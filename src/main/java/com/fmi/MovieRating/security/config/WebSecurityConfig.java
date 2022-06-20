@@ -7,9 +7,11 @@ import com.fmi.MovieRating.security.jwt.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,18 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPointJwt unauthorizedHandler;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointJwt()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/v*/authentication/**").permitAll()
-                .antMatchers("/api/v*/test/**").permitAll()
-                .anyRequest().authenticated();
-
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
 
     @Bean
     public AccountDetailsService userDetailsService() { return new AccountDetailsService(); }
@@ -58,4 +48,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() { return new TokenAuthenticationFilter(); }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointJwt()).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/api/v*/authentication/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v*/movies/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v*/reviews/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v*/individuals/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/v*/reviews/").authenticated();
+
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
 }
