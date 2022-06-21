@@ -11,7 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -59,7 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/v*/reviews/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v*/accounts/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v*/individuals/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/v*/reviews/").authenticated();
+                .antMatchers(HttpMethod.POST,"/api/v*/reviews/").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/api/v*/reviews/").authenticated();
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

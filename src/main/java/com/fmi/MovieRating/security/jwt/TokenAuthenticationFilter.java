@@ -1,6 +1,5 @@
 package com.fmi.MovieRating.security.jwt;
 
-import com.fmi.MovieRating.security.AccountDetails;
 import com.fmi.MovieRating.security.AccountDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired

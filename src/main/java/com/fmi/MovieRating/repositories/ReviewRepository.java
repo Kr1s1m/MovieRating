@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query(value = "select * from review as R where R.movie_id = ?1"
                     , nativeQuery = true)
     List<Review> findAllByMovieId(Integer movie_id);
@@ -20,4 +20,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query(value = "select * from review as R where R.account_id = ?1"
             , nativeQuery = true)
     List<Review> findAllByAccountId(Long account_id);
+
+    @Query(value = "select * from review as R where R.account_id = ?1 and R.movie_id = ?2"
+            , nativeQuery = true)
+    List<Review> findByAccountAndMovieId(Long accountId, Integer movieId);
 }

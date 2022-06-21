@@ -13,21 +13,21 @@ values
 /*
 insert into stars_in (star_id, individual_id, movie_id, star_type)
 values
-(1, 1, 7, 'Actor'),
-(2, 6, 7, 'Actor'),
-(3, 2, 7, 'Director'),
-(4, 2, 7, 'Writer'),
-(5, 5, 9, 'Actor'),
-(6, 3, 9, 'Actor'),
-(7, 4, 9, 'Actor'),
-(8, 5, 9, 'Actor'),
-(9, 3, 12, 'Actor'),
-(10, 2, 12, 'Actor'),
-(11, 1, 12, 'Actor'),
-(12, 6, 12, 'Actor'),
-(13, 6, 12, 'Director'),
-(14, 6, 12, 'Writer'),
-(15, 4, 12, 'Producer')
+(1, 1, 1, 'Actor'),
+(2, 6, 1, 'Actor'),
+(3, 2, 1, 'Director'),
+(4, 2, 1, 'Writer'),
+(5, 5, 3, 'Actor'),
+(6, 3, 3, 'Actor'),
+(7, 4, 3, 'Actor'),
+(8, 5, 3, 'Actor'),
+(9, 3, 5, 'Actor'),
+(10, 2, 5, 'Actor'),
+(11, 1, 5, 'Actor'),
+(12, 6, 5, 'Actor'),
+(13, 6, 5, 'Director'),
+(14, 6, 5, 'Writer'),
+(15, 4, 5, 'Producer')
 */
 
 

@@ -1,4 +1,5 @@
 /*
+
 package com.fmi.MovieRating;
 
 import com.fmi.MovieRating.dtos.MovieDto;
@@ -42,4 +43,5 @@ public class RunnerJPA implements CommandLineRunner {
         Movie movie6 = movieService.createMovie(new MovieDto("TestMovie6", (short)2022, "This is a test movie"));
     }
 }
+
 */

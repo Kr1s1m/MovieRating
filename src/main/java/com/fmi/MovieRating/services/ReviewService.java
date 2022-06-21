@@ -13,7 +13,9 @@ public interface ReviewService {
 
     List<Review> getReviewsByAccountId(Long id);
 
+    Boolean existsByAccountAndMovieId(Long accountId, Integer movieId);
+
     Review createReview(ReviewDto reviewDto);
 
-    void deleteReview(Integer id);
+    void deleteById(Long id);
 }

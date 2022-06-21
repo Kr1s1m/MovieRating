@@ -1,57 +1,31 @@
 package com.fmi.MovieRating.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewDto {
     private Long id;
-    private Integer movieId;
-    private Long accountId;
 
-    private String title;
+    //movie
+    private Integer movieId;
+    private String movieTitle;
+    private Short movieYear;
+
+    //account
+    private Long accountId;
     private String reviewerUsername;
+
+    //self
+    private String title;
     private Short score;
     private String body;
     private LocalDateTime date;
-
-    public ReviewDto() {
-        id = Long.valueOf(0);
-        movieId = 0;
-        accountId=Long.valueOf(0);
-        title = "";
-        reviewerUsername = "";
-        score = 0;
-        body = "";
-        date = LocalDateTime.now();
-    }
-
-    public ReviewDto(Integer movieId, Long accountId, String title,
-                     String reviewerUsername, Short score, String body, LocalDateTime date) {
-
-        this.movieId = movieId;
-        this.accountId = accountId;
-
-        this.title = title;
-        this.reviewerUsername = reviewerUsername;
-        this.score = score;
-        this.body = body;
-        this.date = date;
-    }
-
-    //mapper constructor
-    public ReviewDto(Long id, Integer movieId, Long accountId, String title,
-                     String reviewerUsername, Short score, String body, LocalDateTime date) {
-
-        this.id = id;
-        this.movieId = movieId;
-        this.accountId = accountId;
-
-        this.title = title;
-        this.reviewerUsername = reviewerUsername;
-        this.score = score;
-        this.body = body;
-        this.date = date;
-    }
 }
