@@ -51,6 +51,9 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Review> reviews;
+
     public Account(String username,
                    String email,
                    String password) {

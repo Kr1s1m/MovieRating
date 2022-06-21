@@ -22,11 +22,15 @@ public class Review {
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
     @Column(name = "review_title", length = 100)
     private String title;
 
-    @Column(name = "reviewer_name", length = 25)
-    private String reviewerName;
+    @Column(name = "reviewer_username", length = 25)
+    private String reviewerUsername;
 
     @Column(name = "review_score")
     private Short score;
@@ -41,14 +45,14 @@ public class Review {
 
 
     public Review() {
-        reviewerName = "";
+        reviewerUsername = "";
         this.score = 0;
         this.body = "";
     }
 
-    public Review(String title, String reviewerName, Short score, String body, LocalDateTime date) {
+    public Review(String title, String reviewerUsername, Short score, String body, LocalDateTime date) {
         this.title = title;
-        this.reviewerName = reviewerName;
+        this.reviewerUsername = reviewerUsername;
         this.score = score;
         this.body = body;
         this.date = date;

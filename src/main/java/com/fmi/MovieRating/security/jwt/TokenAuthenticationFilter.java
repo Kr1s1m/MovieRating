@@ -34,10 +34,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 String email = jwtUtils.getUserNameFromJwtToken(jwt);
                 UserDetails userDetails = accountDetailsService.loadUserByUsername(email);
 
-                System.out.println(userDetails.getAuthorities().
-                        stream().map(item -> item.getAuthority()).collect(Collectors.toList()).get(0)
-                );
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

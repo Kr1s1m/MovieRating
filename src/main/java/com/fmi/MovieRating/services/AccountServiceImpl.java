@@ -2,7 +2,9 @@ package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
+import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Account;
+import com.fmi.MovieRating.models.Individual;
 import com.fmi.MovieRating.models.Role;
 import com.fmi.MovieRating.models.VerificationToken;
 import com.fmi.MovieRating.models.enums.AccessType;

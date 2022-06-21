@@ -1,5 +1,4 @@
 /*
-
 package com.fmi.MovieRating;
 
 import com.fmi.MovieRating.dtos.MovieDto;
@@ -41,19 +40,6 @@ public class RunnerJPA implements CommandLineRunner {
         Movie movie4 = movieService.createMovie(new MovieDto("TestMovie4", (short)2022, "This is a test movie"));
         Movie movie5 = movieService.createMovie(new MovieDto("TestMovie5", (short)2022, "This is a test movie"));
         Movie movie6 = movieService.createMovie(new MovieDto("TestMovie6", (short)2022, "This is a test movie"));
-
-        ReviewDto review1 = new ReviewDto(movie1.getId(), "Title1", "TestReviewer1", (short)5, "This is a test review", LocalDateTime.now());
-        ReviewDto review2 = new ReviewDto(movie1.getId(),"Title2", "TestReviewer2", (short)5, "This is a test review", LocalDateTime.now());
-        ReviewDto review3 = new ReviewDto(movie1.getId(),"Title3", "TestReviewer3", (short)5, "This is a test review", LocalDateTime.now());
-        ReviewDto review4 = new ReviewDto(movie2.getId(),"Title4", "TestReviewer4", (short)5, "This is a test review", LocalDateTime.now());
-        ReviewDto review5 = new ReviewDto(movie3.getId(),"Title5", "TestReviewer5", (short)5, "This is a test review", LocalDateTime.now());
-
-        reviewService.createReview(review1);
-        reviewService.createReview(review2);
-        reviewService.createReview(review3);
-        reviewService.createReview(review4);
-        reviewService.createReview(review5);
-
     }
 }
 */
