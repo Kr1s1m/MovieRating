@@ -16,4 +16,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query(value = "select count(review_score) as voteCount, round(avg(review_score), 1) as scoreAverage from review where movie_id = ?1"
             , nativeQuery = true)
     IVoteInfo getVoteInfoByMovieId(Integer movie_id);
+
+    @Query(value = "select * from review as R where R.account_id = ?1"
+            , nativeQuery = true)
+    List<Review> findAllByAccountId(Long account_id);
 }

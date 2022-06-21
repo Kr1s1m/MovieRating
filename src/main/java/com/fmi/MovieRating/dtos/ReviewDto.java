@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 public class ReviewDto {
     private Long id;
     private Integer movieId;
+    private Long accountId;
 
     private String title;
-    private String reviewerName;
+    private String reviewerUsername;
     private Short score;
     private String body;
     private LocalDateTime date;
@@ -18,34 +19,37 @@ public class ReviewDto {
     public ReviewDto() {
         id = Long.valueOf(0);
         movieId = 0;
+        accountId=Long.valueOf(0);
         title = "";
-        reviewerName = "";
+        reviewerUsername = "";
         score = 0;
         body = "";
         date = LocalDateTime.now();
     }
 
-    public ReviewDto(Integer movieId, String title,
-                     String reviewerName, Short score, String body, LocalDateTime date) {
+    public ReviewDto(Integer movieId, Long accountId, String title,
+                     String reviewerUsername, Short score, String body, LocalDateTime date) {
 
         this.movieId = movieId;
+        this.accountId = accountId;
 
         this.title = title;
-        this.reviewerName = reviewerName;
+        this.reviewerUsername = reviewerUsername;
         this.score = score;
         this.body = body;
         this.date = date;
     }
 
     //mapper constructor
-    public ReviewDto(Long id, Integer movieId, String title,
-                     String reviewerName, Short score, String body, LocalDateTime date) {
+    public ReviewDto(Long id, Integer movieId, Long accountId, String title,
+                     String reviewerUsername, Short score, String body, LocalDateTime date) {
 
         this.id = id;
         this.movieId = movieId;
+        this.accountId = accountId;
 
         this.title = title;
-        this.reviewerName = reviewerName;
+        this.reviewerUsername = reviewerUsername;
         this.score = score;
         this.body = body;
         this.date = date;

@@ -29,15 +29,20 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{movie_id}")
-    //@PreAuthorize("hasRole('User') or hasRole('Admin')")
     public List<ReviewDto> getAllByMovieID(@PathVariable Integer movie_id)
     {
         return reviewService.getReviewsByMovieId(movie_id).stream()
                 .map(ReviewMapper::fromReviewToDto)
                 .collect(Collectors.toList());
     }
-    //@GetMapping("/{movie_id}/reviews")
 
+    @GetMapping("/reviews/account-page/{account_id}")
+    public List<ReviewDto> getAllByAccountID(@PathVariable Long account_id)
+    {
+        return reviewService.getReviewsByAccountId(account_id).stream()
+                .map(ReviewMapper::fromReviewToDto)
+                .collect(Collectors.toList());
+    }
 
     @PostMapping("/reviews")
     @PreAuthorize("hasAuthority('User') or hasAuthority('Admin')")

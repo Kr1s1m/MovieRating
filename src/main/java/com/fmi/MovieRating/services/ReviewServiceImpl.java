@@ -2,6 +2,7 @@ package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.models.Review;
+import com.fmi.MovieRating.repositories.AccountRepository;
 import com.fmi.MovieRating.repositories.MovieRepository;
 import com.fmi.MovieRating.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import static com.fmi.MovieRating.mappers.ReviewMapper.fromDtoToReview;
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
-
+    private final AccountRepository accountRepository;
     private final MovieRepository movieRepository;
 
     @Override
@@ -32,11 +33,18 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    public List<Review> getReviewsByAccountId(Long id) {
+        return reviewRepository.findAllByAccountId(id);
+    }
+
+    @Override
     public Review createReview(ReviewDto reviewDto) {
         Review review = fromDtoToReview(reviewDto);
         Integer movieId = reviewDto.getMovieId();
+        Long accountId = reviewDto.getAccountId();
 
         review.setMovie(movieRepository.getById(movieId));
+        review.setAccount(accountRepository.getById(accountId));
 
         return reviewRepository.saveAndFlush(review);
     }
