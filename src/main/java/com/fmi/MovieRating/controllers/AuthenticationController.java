@@ -81,16 +81,16 @@ public class AuthenticationController {
 
     }
 
-    @GetMapping("/token/verify")
-    public ResponseEntity<?> confirmRegistration(@NotEmpty @RequestParam("token") String token) {
+    @PostMapping("/token/verify")
+    public ResponseEntity<?> confirmRegistration(@NotEmpty @RequestBody String token) {
         System.out.println(token);
         final String result = accountService.validateVerificationToken(token);
         return ResponseEntity.ok().body(new ApiResponse(true, result));
     }
 
-    @GetMapping("/token/resend")
+    @PostMapping("/token/resend")
     @ResponseBody
-    public ResponseEntity<?> resendRegistrationToken(@NotEmpty @RequestParam("token") String expiredToken) {
+    public ResponseEntity<?> resendRegistrationToken(@NotEmpty @RequestBody String expiredToken) {
         if (!accountService.resendVerificationToken(expiredToken)) {
             return new ResponseEntity<>(new ApiResponse(false, "Token not found!"), HttpStatus.BAD_REQUEST);
         }

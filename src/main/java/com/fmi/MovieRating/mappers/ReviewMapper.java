@@ -8,7 +8,6 @@ public class ReviewMapper {
     public static Review fromDtoToReview(ReviewDto reviewDto){
         return new Review(
                 reviewDto.getTitle(),
-                reviewDto.getReviewerUsername(),
                 reviewDto.getScore(),
                 reviewDto.getBody(),
                 reviewDto.getDate()
@@ -18,10 +17,15 @@ public class ReviewMapper {
     public static ReviewDto fromReviewToDto(Review review){
         return new ReviewDto(
                 review.getId(),
+                //movie
                 review.getMovie().getId(),
+                review.getMovie().getTitle(),
+                review.getMovie().getYear(),
+                //account
                 review.getAccount().getId(),
+                review.getAccount().getUsername(),
+                //self
                 review.getTitle(),
-                review.getReviewerUsername(),
                 review.getScore(),
                 review.getBody(),
                 review.getDate()

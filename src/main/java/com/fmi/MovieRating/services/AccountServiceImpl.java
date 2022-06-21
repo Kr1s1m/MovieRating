@@ -2,9 +2,7 @@ package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
-import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Account;
-import com.fmi.MovieRating.models.Individual;
 import com.fmi.MovieRating.models.Role;
 import com.fmi.MovieRating.models.VerificationToken;
 import com.fmi.MovieRating.models.enums.AccessType;
@@ -110,12 +108,12 @@ public class AccountServiceImpl implements AccountService {
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
 
         if (!verificationToken.isPresent()) {
-            return "INVALID TOKEN";
+            return "INVALID";
         }
 
         final Account account = verificationToken.get().getAccount();
         if (verificationToken.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "EXPIRED TOKEN";
+            return "EXPIRED";
         }
 
         account.setEnabled(true);
@@ -124,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
         verificationTokenRepository.delete(verificationToken.get());
         accountRepository.save(account);
 
-        return "TOKEN VALID";
+        return "VALID";
     }
 
 }

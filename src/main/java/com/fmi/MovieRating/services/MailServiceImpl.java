@@ -39,7 +39,7 @@ public class MailServiceImpl implements MailService {
     @Async
     @Override
     public void sendVerificationToken(String token, Account account) {
-        final String confirmationUrl = appProperties.getClient().getBaseUrl() + "api/v1/authentication/token/verify?token=" + token;
+        final String confirmationUrl = appProperties.getClient().getBaseUrl() + "verify?token=" + token;
         final String message = "Verify your email.";
         sendHtmlEmail("Registration Confirmation", message + "<br>" + "<a href=" + confirmationUrl + ">Activate</a>", account);
     }

@@ -29,9 +29,6 @@ public class Review {
     @Column(name = "review_title", length = 100)
     private String title;
 
-    @Column(name = "reviewer_username", length = 25)
-    private String reviewerUsername;
-
     @Column(name = "review_score")
     private Short score;
 
@@ -45,14 +42,12 @@ public class Review {
 
 
     public Review() {
-        reviewerUsername = "";
         this.score = 0;
         this.body = "";
     }
 
-    public Review(String title, String reviewerUsername, Short score, String body, LocalDateTime date) {
+    public Review(String title, Short score, String body, LocalDateTime date) {
         this.title = title;
-        this.reviewerUsername = reviewerUsername;
         this.score = score;
         this.body = body;
         this.date = date;

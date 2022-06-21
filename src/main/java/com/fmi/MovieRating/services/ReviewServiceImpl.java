@@ -34,23 +34,27 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<Review> getReviewsByAccountId(Long id) {
+
         return reviewRepository.findAllByAccountId(id);
+    }
+
+    @Override
+    public Boolean existsByAccountAndMovieId(Long accountId, Integer movieId) {
+        return (reviewRepository.findByAccountAndMovieId(accountId, movieId).size() > 0) ? Boolean.TRUE : Boolean.FALSE;
     }
 
     @Override
     public Review createReview(ReviewDto reviewDto) {
         Review review = fromDtoToReview(reviewDto);
-        Integer movieId = reviewDto.getMovieId();
-        Long accountId = reviewDto.getAccountId();
 
-        review.setMovie(movieRepository.getById(movieId));
-        review.setAccount(accountRepository.getById(accountId));
+        review.setMovie(movieRepository.getById(reviewDto.getMovieId()));
+        review.setAccount(accountRepository.getById(reviewDto.getAccountId()));
 
         return reviewRepository.saveAndFlush(review);
     }
 
     @Override
-    public void deleteReview(Integer id) {
+    public void deleteById(Long id) {
         reviewRepository.deleteById(id);
     }
 

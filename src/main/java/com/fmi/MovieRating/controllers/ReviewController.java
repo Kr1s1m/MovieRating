@@ -4,7 +4,6 @@ import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.mappers.ReviewMapper;
 import com.fmi.MovieRating.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +46,19 @@ public class ReviewController {
     @PostMapping("/reviews")
     @PreAuthorize("hasAuthority('User') or hasAuthority('Admin')")
     public ReviewDto createReview(@RequestBody ReviewDto reviewDto){
+
+        Boolean reviewExists = reviewService.existsByAccountAndMovieId(reviewDto.getAccountId(), reviewDto.getMovieId());
+
+        if(reviewExists) {
+            throw new IllegalStateException("review for movie exists");
+        }
         return fromReviewToDto(reviewService.createReview(reviewDto));
+    }
+
+    @DeleteMapping("/reviews/{review_id}")
+    @PreAuthorize("hasAuthority('Admin')")
+    @ResponseBody
+    public void deleteReview(@PathVariable Long review_id) {
+        reviewService.deleteById(review_id);
     }
 }
