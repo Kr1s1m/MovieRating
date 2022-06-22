@@ -9,6 +9,8 @@ public interface ReviewService {
 
     List<Review> list();
 
+    Review getById(Long id);
+
     List<Review> getReviewsByMovieId(Integer id);
 
     List<Review> getReviewsByAccountId(Long id);
@@ -18,4 +20,6 @@ public interface ReviewService {
     Review createReview(ReviewDto reviewDto);
 
     void deleteById(Long id);
+
+    Long getKarmaByAccountId(Long id);
 }

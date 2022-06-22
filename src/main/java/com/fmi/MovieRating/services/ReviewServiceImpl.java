@@ -27,6 +27,11 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    public Review getById(Long id) {
+        return reviewRepository.getById(id);
+    }
+
+    @Override
     public List<Review> getReviewsByMovieId(Integer id) {
 
         return reviewRepository.findAllByMovieId(id);
@@ -58,4 +63,8 @@ public class ReviewServiceImpl implements ReviewService{
         reviewRepository.deleteById(id);
     }
 
+    @Override
+    public Long getKarmaByAccountId(Long id) {
+        return reviewRepository.getKarmaByAccountId(id);
+    }
 }

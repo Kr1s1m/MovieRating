@@ -11,6 +11,8 @@ import com.fmi.MovieRating.repositories.RoleRepository;
 import com.fmi.MovieRating.repositories.VerificationTokenRepository;
 import com.fmi.MovieRating.security.AccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -136,5 +138,4 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found - " + principal.getUsername()));
     }
-
 }
