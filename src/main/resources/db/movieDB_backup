@@ -1,0 +1,770 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.3
+-- Dumped by pg_dump version 14.3
+
+-- Started on 2022-06-22 23:08:55
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 210 (class 1259 OID 17850)
+-- Name: account; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.account (
+    account_id bigint NOT NULL,
+    account_date_created timestamp without time zone,
+    account_email character varying(255),
+    account_enabled boolean,
+    account_locked boolean,
+    account_password character varying(255),
+    account_username character varying(25)
+);
+
+
+ALTER TABLE public.account OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 17857)
+-- Name: account_roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.account_roles (
+    account_id bigint NOT NULL,
+    role_id integer NOT NULL
+);
+
+
+ALTER TABLE public.account_roles OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 17849)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 17862)
+-- Name: individual; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.individual (
+    individual_id integer NOT NULL,
+    individual_bio text,
+    individual_birth_city character varying(20),
+    individual_birth_country character varying(20),
+    individual_birthdate date,
+    individual_firstname character varying(20),
+    individual_lastname character varying(20)
+);
+
+
+ALTER TABLE public.individual OWNER TO postgres;
+
+--
+-- TOC entry 213 (class 1259 OID 17869)
+-- Name: movie; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.movie (
+    movie_id integer NOT NULL,
+    movie_desc text,
+    movie_title character varying(70) NOT NULL,
+    movie_year smallint
+);
+
+
+ALTER TABLE public.movie OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 17876)
+-- Name: review; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.review (
+    review_id bigint NOT NULL,
+    review_body text,
+    review_date timestamp without time zone,
+    review_score smallint,
+    review_title character varying(100),
+    review_vote_balance integer,
+    account_id bigint NOT NULL,
+    movie_id integer NOT NULL
+);
+
+
+ALTER TABLE public.review OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 17883)
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    role_id integer NOT NULL,
+    role_access_type character varying(255)
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 17888)
+-- Name: stars_in; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.stars_in (
+    star_id integer NOT NULL,
+    star_type character varying(255),
+    individual_id integer NOT NULL,
+    movie_id integer NOT NULL
+);
+
+
+ALTER TABLE public.stars_in OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 17893)
+-- Name: verification_token; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.verification_token (
+    id bigint NOT NULL,
+    expiry_date timestamp without time zone,
+    token character varying(255),
+    account_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.verification_token OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 17898)
+-- Name: vote; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.vote (
+    vote_id bigint NOT NULL,
+    vote_type integer,
+    account_id bigint NOT NULL,
+    review_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.vote OWNER TO postgres;
+
+--
+-- TOC entry 3381 (class 2613 OID 16577)
+-- Name: 16577; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16577');
+
+
+ALTER LARGE OBJECT 16577 OWNER TO postgres;
+
+--
+-- TOC entry 3382 (class 2613 OID 16578)
+-- Name: 16578; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16578');
+
+
+ALTER LARGE OBJECT 16578 OWNER TO postgres;
+
+--
+-- TOC entry 3383 (class 2613 OID 16579)
+-- Name: 16579; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16579');
+
+
+ALTER LARGE OBJECT 16579 OWNER TO postgres;
+
+--
+-- TOC entry 3384 (class 2613 OID 16580)
+-- Name: 16580; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16580');
+
+
+ALTER LARGE OBJECT 16580 OWNER TO postgres;
+
+--
+-- TOC entry 3385 (class 2613 OID 16581)
+-- Name: 16581; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16581');
+
+
+ALTER LARGE OBJECT 16581 OWNER TO postgres;
+
+--
+-- TOC entry 3386 (class 2613 OID 16582)
+-- Name: 16582; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16582');
+
+
+ALTER LARGE OBJECT 16582 OWNER TO postgres;
+
+--
+-- TOC entry 3387 (class 2613 OID 16583)
+-- Name: 16583; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16583');
+
+
+ALTER LARGE OBJECT 16583 OWNER TO postgres;
+
+--
+-- TOC entry 3372 (class 0 OID 17850)
+-- Dependencies: 210
+-- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.account (account_id, account_date_created, account_email, account_enabled, account_locked, account_password, account_username) FROM stdin;
+8	2022-06-22 21:46:02.634894	user1@testmail.com	t	f	$2a$10$nJzafYe6NcKmSxa1H43UtOnT9a7df7A8DSTkVkLihRLEx1c8H6zl.	user1
+10	2022-06-22 21:47:03.035823	admin1@testmail.com	t	f	$2a$10$amnp3.1CEolelpG0QCuiRutWrgPA6QpWu.Yu5TdOBG0HFP./xM0F2	admin1
+18	2022-06-22 21:57:21.350751	user2@testmail.com	t	f	$2a$10$Pzq1N.6DnVQ0lSEtAQQAP.NTymFDzmOVTBXb4AKd0hhGEcy0rqOke	user2
+\.
+
+
+--
+-- TOC entry 3373 (class 0 OID 17857)
+-- Dependencies: 211
+-- Data for Name: account_roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.account_roles (account_id, role_id) FROM stdin;
+8	7
+10	7
+10	8
+18	7
+\.
+
+
+--
+-- TOC entry 3374 (class 0 OID 17862)
+-- Dependencies: 212
+-- Data for Name: individual; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.individual (individual_id, individual_bio, individual_birth_city, individual_birth_country, individual_birthdate, individual_firstname, individual_lastname) FROM stdin;
+1	Bio1	City1	Country1	2005-08-24	Firstname1	Lastname1
+2	Bio2	City2	Country2	2006-07-23	Firstname2	Lastname2
+3	Bio3	City3	Country3	2007-02-14	Firstname3	Lastname3
+4	Bio4	City4	Country4	1996-11-10	Firstname4	Lastname4
+5	Bio5	City5	Country5	1999-01-11	Firstname5	Lastname5
+6	Bio6	City6	Country6	1986-06-27	Firstname6	Lastname6
+\.
+
+
+--
+-- TOC entry 3375 (class 0 OID 17869)
+-- Dependencies: 213
+-- Data for Name: movie; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.movie (movie_id, movie_desc, movie_title, movie_year) FROM stdin;
+1	This is a test movie	TestMovie1	2022
+2	This is a test movie	TestMovie2	2022
+3	This is a test movie	TestMovie3	2022
+4	This is a test movie	TestMovie4	2022
+5	This is a test movie	TestMovie5	2022
+6	This is a test movie	TestMovie6	2022
+\.
+
+
+--
+-- TOC entry 3376 (class 0 OID 17876)
+-- Dependencies: 214
+-- Data for Name: review; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.review (review_id, review_body, review_date, review_score, review_title, review_vote_balance, account_id, movie_id) FROM stdin;
+21	review body 8 - rating 8/10	2022-06-22 18:58:58.403	8	review tite 8	-2	18	2
+13	review body 2 - rating 5/10	2022-06-22 18:52:28.361	5	review title 2	2	8	2
+14	review body 3 - rating 7/10	2022-06-22 18:54:17.215	7	review title 3	2	8	3
+20	review body 7 - rating 7/10	2022-06-22 18:58:17.217	7	review title 7	3	18	1
+15	review body 4 - rating 9/10	2022-06-22 18:54:47.613	9	review title 4	1	8	4
+22	review body 9 - rating 8/10	2022-06-22 18:59:35.654	8	review tite 9	1	18	4
+23	review body 10 - rating 3/10	2022-06-22 19:00:15.863	3	review tite 10	-2	18	6
+24	review body 11 - rating 6/10	2022-06-22 19:01:53.889	6	review title 11	3	10	1
+12	review body 1 - rating 8/10	2022-06-22 18:51:56.68	8	review title 1	-3	8	1
+16	review body 5 - rating 10/10	2022-06-22 18:55:23.748	10	review title 5	3	8	5
+17	review body 6 - rating 4 out of 10	2022-06-22 18:56:38.293	4	review title 6	3	8	6
+\.
+
+
+--
+-- TOC entry 3377 (class 0 OID 17883)
+-- Dependencies: 215
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.roles (role_id, role_access_type) FROM stdin;
+7	User
+8	Admin
+\.
+
+
+--
+-- TOC entry 3378 (class 0 OID 17888)
+-- Dependencies: 216
+-- Data for Name: stars_in; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.stars_in (star_id, star_type, individual_id, movie_id) FROM stdin;
+1	Actor	1	1
+2	Actor	6	1
+3	Director	2	1
+4	Writer	2	1
+5	Actor	5	3
+6	Actor	3	3
+7	Actor	4	3
+8	Actor	5	3
+9	Actor	3	5
+10	Actor	2	5
+11	Actor	1	5
+12	Actor	6	5
+13	Director	6	5
+14	Writer	6	5
+15	Producer	4	5
+\.
+
+
+--
+-- TOC entry 3379 (class 0 OID 17893)
+-- Dependencies: 217
+-- Data for Name: verification_token; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.verification_token (id, expiry_date, token, account_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3380 (class 0 OID 17898)
+-- Dependencies: 218
+-- Data for Name: vote; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.vote (vote_id, vote_type, account_id, review_id) FROM stdin;
+25	1	10	12
+26	0	10	20
+27	0	10	24
+28	0	10	13
+29	1	10	21
+30	0	10	21
+31	1	10	21
+32	0	10	21
+33	1	10	21
+34	0	10	21
+35	1	10	21
+36	0	10	21
+37	0	10	17
+38	1	10	17
+39	0	10	17
+40	1	10	17
+41	0	10	17
+42	1	10	17
+43	0	10	17
+44	1	10	17
+45	1	10	23
+46	0	10	23
+47	1	10	23
+48	0	10	23
+49	1	10	23
+50	0	10	23
+51	1	10	23
+52	0	10	23
+53	1	10	23
+54	0	10	23
+55	1	10	23
+56	0	10	23
+57	1	10	23
+58	0	10	23
+59	1	10	23
+60	0	10	23
+61	0	10	17
+62	1	10	17
+63	0	10	17
+64	1	10	17
+65	0	10	17
+66	1	10	17
+67	0	10	17
+68	1	10	17
+69	0	10	17
+70	1	10	17
+71	0	10	17
+72	1	10	17
+73	0	10	17
+74	1	10	17
+75	0	10	17
+76	1	10	17
+77	0	10	17
+78	1	10	17
+79	0	10	17
+80	1	10	17
+81	0	10	17
+82	1	10	17
+83	0	10	17
+84	1	10	17
+85	0	10	17
+86	1	10	17
+87	0	10	17
+88	1	10	17
+89	0	10	17
+90	1	10	17
+91	0	10	17
+92	1	10	17
+93	0	10	17
+94	1	10	17
+95	0	10	17
+96	1	10	17
+97	0	10	17
+98	1	10	17
+99	0	10	17
+100	1	10	23
+101	1	10	21
+102	1	10	13
+103	0	10	13
+104	0	10	14
+105	1	10	14
+106	0	10	14
+107	1	10	14
+108	0	10	14
+109	1	10	14
+110	0	10	14
+111	0	10	16
+112	1	18	12
+113	0	18	20
+114	0	18	24
+115	0	18	15
+116	0	18	22
+117	0	18	17
+118	1	18	23
+119	0	18	16
+120	1	18	16
+121	0	18	16
+122	0	8	24
+123	1	8	12
+124	0	8	20
+125	0	8	16
+126	0	8	17
+127	1	8	21
+128	0	8	13
+129	0	8	14
+130	1	8	20
+131	0	8	20
+132	1	8	20
+133	0	8	20
+134	1	8	20
+135	0	8	20
+\.
+
+
+--
+-- TOC entry 3394 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 135, true);
+
+
+--
+-- TOC entry 3388 (class 0 OID 0)
+-- Data for Name: BLOBS; Type: BLOBS; Schema: -; Owner: -
+--
+
+BEGIN;
+
+SELECT pg_catalog.lo_open('16577', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16578', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16579', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16580', 131072);
+SELECT pg_catalog.lowrite(0, '\x70656e69732e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16581', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16582', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16583', 131072);
+SELECT pg_catalog.lowrite(0, '\x546869732069732061207665727920626164206d6f7669652e');
+SELECT pg_catalog.lo_close(0);
+
+COMMIT;
+
+--
+-- TOC entry 3197 (class 2606 OID 17856)
+-- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_pkey PRIMARY KEY (account_id);
+
+
+--
+-- TOC entry 3204 (class 2606 OID 17861)
+-- Name: account_roles account_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account_roles
+    ADD CONSTRAINT account_roles_pkey PRIMARY KEY (account_id, role_id);
+
+
+--
+-- TOC entry 3207 (class 2606 OID 17868)
+-- Name: individual individual_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.individual
+    ADD CONSTRAINT individual_pkey PRIMARY KEY (individual_id);
+
+
+--
+-- TOC entry 3210 (class 2606 OID 17875)
+-- Name: movie movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movie
+    ADD CONSTRAINT movie_pkey PRIMARY KEY (movie_id);
+
+
+--
+-- TOC entry 3213 (class 2606 OID 17882)
+-- Name: review review_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.review
+    ADD CONSTRAINT review_pkey PRIMARY KEY (review_id);
+
+
+--
+-- TOC entry 3215 (class 2606 OID 17887)
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (role_id);
+
+
+--
+-- TOC entry 3218 (class 2606 OID 17892)
+-- Name: stars_in stars_in_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stars_in
+    ADD CONSTRAINT stars_in_pkey PRIMARY KEY (star_id);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 17905)
+-- Name: account uk_o72icrlyfe9jcc61hbgsnmkgr; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT uk_o72icrlyfe9jcc61hbgsnmkgr UNIQUE (account_email);
+
+
+--
+-- TOC entry 3202 (class 2606 OID 17907)
+-- Name: account uk_xtxi9818l59cygi210n8tymn; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT uk_xtxi9818l59cygi210n8tymn UNIQUE (account_username);
+
+
+--
+-- TOC entry 3220 (class 2606 OID 17897)
+-- Name: verification_token verification_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.verification_token
+    ADD CONSTRAINT verification_token_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3222 (class 2606 OID 17902)
+-- Name: vote vote_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vote
+    ADD CONSTRAINT vote_pkey PRIMARY KEY (vote_id);
+
+
+--
+-- TOC entry 3198 (class 1259 OID 17903)
+-- Name: idx4lde57f579n315au55ua4gqxk; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx4lde57f579n315au55ua4gqxk ON public.account USING btree (account_id);
+
+
+--
+-- TOC entry 3205 (class 1259 OID 17908)
+-- Name: idxdb0qmmnwwc9hx4amh8yujv7d9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxdb0qmmnwwc9hx4amh8yujv7d9 ON public.individual USING btree (individual_id);
+
+
+--
+-- TOC entry 3208 (class 1259 OID 17909)
+-- Name: idxk0ed2rklrl9km61y4s4j95gdo; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxk0ed2rklrl9km61y4s4j95gdo ON public.movie USING btree (movie_id);
+
+
+--
+-- TOC entry 3211 (class 1259 OID 17910)
+-- Name: idxr5l24vpi1wf35q8h3e7lejuar; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxr5l24vpi1wf35q8h3e7lejuar ON public.review USING btree (review_id);
+
+
+--
+-- TOC entry 3216 (class 1259 OID 17911)
+-- Name: idxt9x1m42ojaidnb2qb43ou3bfs; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idxt9x1m42ojaidnb2qb43ou3bfs ON public.stars_in USING btree (star_id);
+
+
+--
+-- TOC entry 3227 (class 2606 OID 17932)
+-- Name: stars_in fk1gti5hcnl02tql3i21l7mnwip; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stars_in
+    ADD CONSTRAINT fk1gti5hcnl02tql3i21l7mnwip FOREIGN KEY (individual_id) REFERENCES public.individual(individual_id);
+
+
+--
+-- TOC entry 3230 (class 2606 OID 17947)
+-- Name: vote fk3lpbkjcr7st82i459lj878t7k; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vote
+    ADD CONSTRAINT fk3lpbkjcr7st82i459lj878t7k FOREIGN KEY (account_id) REFERENCES public.account(account_id);
+
+
+--
+-- TOC entry 3223 (class 2606 OID 17912)
+-- Name: account_roles fk6r8nxkn3hctohyllteivfr5hy; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account_roles
+    ADD CONSTRAINT fk6r8nxkn3hctohyllteivfr5hy FOREIGN KEY (role_id) REFERENCES public.roles(role_id);
+
+
+--
+-- TOC entry 3226 (class 2606 OID 17927)
+-- Name: review fk8378dhlpvq0e9tnkn9mx0r64i; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.review
+    ADD CONSTRAINT fk8378dhlpvq0e9tnkn9mx0r64i FOREIGN KEY (movie_id) REFERENCES public.movie(movie_id);
+
+
+--
+-- TOC entry 3225 (class 2606 OID 17922)
+-- Name: review fkbopwpfvcg5qsfrjtt9svofxg1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.review
+    ADD CONSTRAINT fkbopwpfvcg5qsfrjtt9svofxg1 FOREIGN KEY (account_id) REFERENCES public.account(account_id);
+
+
+--
+-- TOC entry 3228 (class 2606 OID 17937)
+-- Name: stars_in fkc3nh5aw2xxo3o46odkixyoxsv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stars_in
+    ADD CONSTRAINT fkc3nh5aw2xxo3o46odkixyoxsv FOREIGN KEY (movie_id) REFERENCES public.movie(movie_id);
+
+
+--
+-- TOC entry 3231 (class 2606 OID 17952)
+-- Name: vote fkmbq6m723vxdre9v2tvlk4ceb3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vote
+    ADD CONSTRAINT fkmbq6m723vxdre9v2tvlk4ceb3 FOREIGN KEY (review_id) REFERENCES public.review(review_id);
+
+
+--
+-- TOC entry 3229 (class 2606 OID 17942)
+-- Name: verification_token fks8je6hs7qhfs93obh8dqml9fe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.verification_token
+    ADD CONSTRAINT fks8je6hs7qhfs93obh8dqml9fe FOREIGN KEY (account_id) REFERENCES public.account(account_id);
+
+
+--
+-- TOC entry 3224 (class 2606 OID 17917)
+-- Name: account_roles fktp61eta5i06bug3w1qr6286uf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.account_roles
+    ADD CONSTRAINT fktp61eta5i06bug3w1qr6286uf FOREIGN KEY (account_id) REFERENCES public.account(account_id);
+
+
+-- Completed on 2022-06-22 23:08:55
+
+--
+-- PostgreSQL database dump complete
+--
+
