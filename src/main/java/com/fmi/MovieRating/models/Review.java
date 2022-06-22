@@ -1,6 +1,7 @@
 package com.fmi.MovieRating.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(indexes = { @Index(columnList = "review_id") })
 public class Review {
 
@@ -35,16 +37,13 @@ public class Review {
     @Column(name = "review_date")
     private LocalDateTime date;
 
+    @Column(name = "review_vote_balance")
+    private Integer voteBalance = 0;
+
     @Lob //large object, CLOB (character large object) <-> TEXT in Postgres
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "review_body", columnDefinition = "TEXT")
     private String body;
-
-
-    public Review() {
-        this.score = 0;
-        this.body = "";
-    }
 
     public Review(String title, Short score, String body, LocalDateTime date) {
         this.title = title;

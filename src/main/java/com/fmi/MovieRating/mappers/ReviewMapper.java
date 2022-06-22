@@ -28,7 +28,8 @@ public class ReviewMapper {
                 review.getTitle(),
                 review.getScore(),
                 review.getBody(),
-                review.getDate()
+                review.getDate(),
+                review.getVoteBalance()
         );
     }
 }

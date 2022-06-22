@@ -21,7 +21,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             , nativeQuery = true)
     List<Review> findAllByAccountId(Long account_id);
 
-    @Query(value = "select * from review as R where R.account_id = ?1 and R.movie_id = ?2"
+    @Query(value = "select exists(select 1 from review as R where R.account_id = ?1 and R.movie_id = ?2) AS \"exists\""
             , nativeQuery = true)
-    List<Review> findByAccountAndMovieId(Long accountId, Integer movieId);
+    Boolean existsByAccountAndMovieId(Long accountId, Integer movieId);
 }

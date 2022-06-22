@@ -56,7 +56,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{review_id}")
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('User')")
     @ResponseBody
     public void deleteReview(@PathVariable Long review_id) {
         reviewService.deleteById(review_id);

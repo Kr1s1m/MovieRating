@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Boolean existsByAccountAndMovieId(Long accountId, Integer movieId) {
-        return (reviewRepository.findByAccountAndMovieId(accountId, movieId).size() > 0) ? Boolean.TRUE : Boolean.FALSE;
+        return reviewRepository.existsByAccountAndMovieId(accountId, movieId);
     }
 
     @Override
