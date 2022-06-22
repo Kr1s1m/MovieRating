@@ -1,7 +1,7 @@
 package com.fmi.MovieRating.controllers;
 
 import com.fmi.MovieRating.dtos.MovieDto;
-import com.fmi.MovieRating.repositories.IVoteInfo;
+import com.fmi.MovieRating.repositories.IRatingInfo;
 import com.fmi.MovieRating.services.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +25,10 @@ public class MovieController {
     public List<MovieDto> getAllMovies(){
         return movieService.list().stream()
                 .map(movie -> {
-                    IVoteInfo voteInfo = movieService.getVoteInfoById(movie.getId());
+                    IRatingInfo ratingInfo = movieService.getRatingInfoById(movie.getId());
                     MovieDto movieDto = fromMovieToDto(movie);
-                    movieDto.setVotes(voteInfo.getVoteCount());
-                    movieDto.setRating(voteInfo.getScoreAverage());
+                    movieDto.setRatedCount(ratingInfo.getRatedCount());
+                    movieDto.setRating(ratingInfo.getRating());
 
                     return movieDto;
                 })
@@ -40,10 +40,10 @@ public class MovieController {
     public Optional<MovieDto> getMovieById(@PathVariable Integer id) {
 
         return movieService.getMovieById(id).map(movie -> {
-            IVoteInfo voteInfo = movieService.getVoteInfoById(movie.getId());
+            IRatingInfo ratingInfo = movieService.getRatingInfoById(movie.getId());
             MovieDto movieDto = fromMovieToDto(movie);
-            movieDto.setVotes(voteInfo.getVoteCount());
-            movieDto.setRating(voteInfo.getScoreAverage());
+            movieDto.setRatedCount(ratingInfo.getRatedCount());
+            movieDto.setRating(ratingInfo.getRating());
 
             return movieDto;
         });
@@ -55,10 +55,10 @@ public class MovieController {
                 .map(iMovieInfo -> {
                     MovieDto movieDto = fromMovieInfoToDto(iMovieInfo);
 
-                    IVoteInfo iVoteInfo = movieService.getVoteInfoById(iMovieInfo.getId());
+                    IRatingInfo iRatingInfo = movieService.getRatingInfoById(iMovieInfo.getId());
 
-                    movieDto.setVotes(iVoteInfo.getVoteCount());
-                    movieDto.setRating(iVoteInfo.getScoreAverage());
+                    movieDto.setRatedCount(iRatingInfo.getRatedCount());
+                    movieDto.setRating(iRatingInfo.getRating());
                     movieDto.setDescription("");
 
                     return movieDto;

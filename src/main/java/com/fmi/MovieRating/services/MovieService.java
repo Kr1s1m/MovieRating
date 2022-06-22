@@ -3,7 +3,7 @@ package com.fmi.MovieRating.services;
 import com.fmi.MovieRating.dtos.MovieDto;
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.IMovieInfo;
-import com.fmi.MovieRating.repositories.IVoteInfo;
+import com.fmi.MovieRating.repositories.IRatingInfo;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ public interface MovieService {
 
     List<IMovieInfo> getAllMovieInfoByIndividualId(Integer individual_id);
 
-    IVoteInfo getVoteInfoById(Integer id);
+    IRatingInfo getRatingInfoById(Integer id);
 
     void deleteMovie(Integer id);
 

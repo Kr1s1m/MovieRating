@@ -3,12 +3,7 @@
 package com.fmi.MovieRating;
 
 import com.fmi.MovieRating.dtos.MovieDto;
-import com.fmi.MovieRating.dtos.ReviewDto;
 import com.fmi.MovieRating.models.Movie;
-import com.fmi.MovieRating.models.Review;
-import com.fmi.MovieRating.models.StarsIn;
-import com.fmi.MovieRating.mappers.ReviewMapper;
-import com.fmi.MovieRating.repositories.MovieRepository;
 import com.fmi.MovieRating.services.MovieService;
 import com.fmi.MovieRating.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
-import static com.fmi.MovieRating.mappers.ReviewMapper.fromDtoToReview;
 
 @Component
 public class RunnerJPA implements CommandLineRunner {

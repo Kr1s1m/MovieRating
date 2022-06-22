@@ -4,7 +4,7 @@ import com.fmi.MovieRating.dtos.MovieDto;
 import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Movie;
 import com.fmi.MovieRating.repositories.IMovieInfo;
-import com.fmi.MovieRating.repositories.IVoteInfo;
+import com.fmi.MovieRating.repositories.IRatingInfo;
 import com.fmi.MovieRating.repositories.MovieRepository;
 import com.fmi.MovieRating.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +52,8 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public IVoteInfo getVoteInfoById(Integer id) {
-        return reviewRepository.getVoteInfoByMovieId(id);
+    public IRatingInfo getRatingInfoById(Integer id) {
+        return reviewRepository.getRatingInfoByMovieId(id);
     }
 
     @Override
