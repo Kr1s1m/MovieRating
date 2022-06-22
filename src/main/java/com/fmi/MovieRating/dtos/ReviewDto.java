@@ -28,4 +28,5 @@ public class ReviewDto {
     private Short score;
     private String body;
     private LocalDateTime date;
+    private Integer voteBalance;
 }

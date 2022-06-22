@@ -22,4 +22,6 @@ public interface AccountService {
     boolean resendVerificationToken(String token);
 
     String validateVerificationToken(String token);
+
+    Account getCurrentAccount();
 }
