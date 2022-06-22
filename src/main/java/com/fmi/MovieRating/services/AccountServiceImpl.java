@@ -2,7 +2,6 @@ package com.fmi.MovieRating.services;
 
 import com.fmi.MovieRating.dtos.RegistrationRequest;
 import com.fmi.MovieRating.exceptions.AccountAlreadyExistAuthenticationException;
-import com.fmi.MovieRating.exceptions.ResourceNotFoundException;
 import com.fmi.MovieRating.models.Account;
 import com.fmi.MovieRating.models.Role;
 import com.fmi.MovieRating.models.VerificationToken;
@@ -11,7 +10,6 @@ import com.fmi.MovieRating.repositories.AccountRepository;
 import com.fmi.MovieRating.repositories.RoleRepository;
 import com.fmi.MovieRating.repositories.VerificationTokenRepository;
 import com.fmi.MovieRating.security.AccountDetails;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
