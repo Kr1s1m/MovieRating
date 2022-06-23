@@ -28,24 +28,32 @@ public class VoteService {
 
         Optional<Vote> voteByReviewAndAccount = voteRepository.findTopByReviewAndAccountOrderByVoteIdDesc(review, account);
 
+
         if (voteByReviewAndAccount.isPresent() &&
                 voteByReviewAndAccount.get().getVoteType()
                         .equals(voteDto.getVoteType())) {
             throw new IllegalStateException("You have already "
                     + voteDto.getVoteType().name() + "d this review");
         }
+
         if (VoteType.Upvote.equals(voteDto.getVoteType())) {
             review.setVoteBalance(review.getVoteBalance() + 1);
         } else {
             review.setVoteBalance(review.getVoteBalance() - 1);
         }
 
-        voteRepository.save(
-                new Vote(
-                        voteDto.getVoteType(),
-                        review,
-                        account
-                        ));
+        if(voteByReviewAndAccount.isPresent()) {
+            voteRepository.delete(voteByReviewAndAccount.get());
+        }
+        else{
+            voteRepository.save(
+                    new Vote(
+                            voteDto.getVoteType(),
+                            review,
+                            account
+                    )
+            );
+        }
 
         reviewRepository.save(review);
     }
