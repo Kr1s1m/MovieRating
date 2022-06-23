@@ -26,7 +26,7 @@ public class VoteService {
         Review review = reviewRepository.findById(voteDto.getReviewId())
                 .orElseThrow(() -> new ResourceNotFoundException("Review Not Found with ID - " + voteDto.getReviewId()));
 
-        Optional<Vote> voteByReviewAndAccount = voteRepository.findTopByReviewAndAccountOrderByVoteIdDesc(review, account);
+        Optional<Vote> voteByReviewAndAccount = voteRepository.findTopByReviewAndAccount(review, account);
 
 
         if (voteByReviewAndAccount.isPresent() &&
