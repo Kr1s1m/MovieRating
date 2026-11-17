@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: moviedb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080" # The Web UI to view your emails
+      - "1025:1025" # The SMTP port
+  app:
+    build: .
+    ports:
+      - "8088:8088"
+    depends_on:
+      - db
+      - maildev
+    environment:
+      # These override the connection settings in your application.properties
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/moviedb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
